@@ -1,0 +1,133 @@
+<template>
+    <view>
+        <cu-custom bgColor="bg-red" :isBack="true">
+            <block slot="backText">返回</block>
+            <block slot="content">详情</block>
+        </cu-custom>
+#foreach($column in $columns)
+    #if($column.isInsert)
+        #if($column.colName.endsWith("url"))
+        <view class="cu-bar bg-white margin-top">
+            <view class="action">
+                图片上传
+            </view>
+            <view class="action">
+                {{img${column.attrName}List.length}}/4
+            </view>
+        </view>
+        <view class="cu-form-group">
+            <view class="grid col-4 grid-square flex-sub">
+                <view class="bg-img" v-for="(item,index) in img${column.attrName}List" :key="index" @tap="View${column.attrName}Image" :data-url="img${column.attrName}List[index]">
+                    <image :src="img${column.attrName}List[index]" mode="aspectFill"></image>
+                </view>
+            </view>
+        </view>
+       #else
+        <view class="cu-form-group">
+            <view class="title">${column.fieldLabel}</view>
+            <text class="text-grey">{{info.${column.attr}}}</text>
+        </view>
+        #end
+    #end
+#end
+        <view class="cu-tabbar-height margin-bottom-sm"></view>
+        <view class="cu-bar bg-white tabbar shadow border" style="position: fixed;bottom: 0;width: 100%;">
+            <view class="bg-green submit" @tap="update(info.id)">编辑</view>
+            <view class="bg-red submit" @tap="deleteHandle(info.id)">删除</view>
+        </view>
+    </view>
+</template>
+<script>
+    import * as API from '@/api/${pathName}'
+    export default {
+        data() {
+            return {
+                info: {
+#foreach($column in $columns)
+                  ${column.attr}: ''#if($velocityCount != $columns.size()),#end
+#end
+                },
+            #foreach($column in $columns)
+                #if($column.isInsert)
+                  img${column.attrName}List: [],
+                #end
+            #end
+           }
+        },
+        onLoad(options) {
+            this.infoHandle(options.id)//获取详情
+        },
+        methods: {
+            infoHandle(id) {//获取详情
+                let _this = this
+                API.info(id).then(res => {
+                    if (res.code == 0) {
+                        this.info = res.data
+                    }
+                }).catch(err => {
+                });
+            },
+            update(id) {//编辑
+                uni.navigateTo({
+                    url: "./add-or-update?id=" + id
+                })
+            },
+#foreach($column in $columns)
+    #if($column.isInsert =='1')
+        #if($column.colName.endsWith("url"))
+            // 查看大图
+            View${column.attrName}Image(e) {
+                uni.previewImage({
+                    urls: this.img${column.attrName}List,
+                    current: e.currentTarget.dataset.url
+                });
+            },
+        #end
+    #end
+#end
+            deleteHandle(id) {//删除
+                uni.showModal({
+                    title: '提示',
+                    content: '确定删除么？',
+                    success: function (res) {
+                        if (res.confirm) {
+                            API.del([id]).then(res => {
+                                if (res.code == 0) {
+                                    uni.showToast({
+                                        title: '删除成功',
+                                        icon: "success"
+                                    });
+                                    setTimeout(function () {
+                                        uni.reLaunch({
+                                            url: "./index"
+                                        })
+                                    }, 2000);
+                                }
+                            }).catch(err => {
+                            });
+                        } else if (res.cancel) {
+                            console.log('用户点击取消');
+                        }
+                    }
+                });
+            }
+        }
+    }
+</script>
+
+<style lang="less">
+    .tag-title {
+        position: relative;
+        overflow: hidden;
+        .tag {
+            width: 200 upx;
+            height: 100 upx;
+            position: absolute;
+            right: -80 upx;
+            top: -30 upx;
+            transform: rotate(45deg);
+            text-align: center;
+            line-height: 150 upx;
+        }
+    }
+</style>

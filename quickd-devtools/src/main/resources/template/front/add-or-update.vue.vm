@@ -1,0 +1,122 @@
+<!--
+	Desc: 	${comments}的编辑界面
+	Author: ${author}
+	Date: 	${datetime}
+-->
+
+<template>
+    <el-dialog
+            :title="!dataForm.id ? '新增${comments}' : '修改${comments}'"
+            :append-to-body="true"
+             top="8vh"
+            :close-on-click-modal="false"
+            :visible.sync="visible">
+        <el-form :model="dataForm" ref="dataForm" @keyup.enter.native="dataFormSubmit()"
+                 label-width="180px">
+#foreach($column in $columns)
+    #if($column.isInsert)
+        #if($column.isNotNull)
+           <el-form-item  :rules="$rulesFilter({required:true, trigger: 'blur'})" label="${column.fieldLabel}" prop="${column.attr}">
+        #else
+           <el-form-item  label="${column.fieldLabel}" prop="${column.attr}">
+        #end
+            #if ($column.attrType=="int"||$column.attrType== "Integer")
+                <el-input-number v-model="dataForm.${column.attr}" :min="0"></el-input-number>
+            #elseif($column.attrType=="Double"||$column.attrType=="double"||$column.attrType=="BigDecimal")
+                    <el-input-number v-model="dataForm.${column.attr}" :min="0" :precision="2" :step="0.1"></el-input-number>
+            #elseif ($column.attrType == 'Date')
+                <el-date-picker type="datetime"
+                                placeholder="选择日期" size="small"
+                                v-model="dataForm.${column.attr}">
+                </el-date-picker>
+            #elseif ($column.formType == 'select'&&$column.refTable)
+                  <CrudSelect :dataList="${column.refPathName}List" v-model="dataForm.${column.attr}"/>
+            #elseif ($column.formType == 'radio'&&$column.dictType)
+                  <CrudRadio :dataList="getDict('$column.dictType')" v-model="dataForm.${column.attr}"/>
+            #elseif ($column.formType == 'checkbox'&&$column.dictType)
+                  <CrudCheckBox :dataList="getDict('$column.dictType')" v-model="dataForm.${column.attr}"/>
+            #elseif ($column.formType == 'select'&&$column.dictType)
+                  <CrudSelect :dataList="getDict('$column.dictType')" v-model="dataForm.${column.attr}"/>
+            #elseif($column.formType == 'imageselect')
+                  <upload-images :data-source="dataForm.${column.attr}"  @modify="${column.attr}ModifyHandle"></upload-images>
+            #elseif($column.formType =="fileselect")
+                  <upload-files :data-source="dataForm.${column.attr}"  @modify="${column.attr}ModifyHandle"></upload-files>
+            #elseif($column.dataType == 'text')
+                <el-input class="el-input" type="textarea" v-model="dataForm.${column.attr}"
+                          auto-complete="off" placeholder="请输入${column.fieldLabel}"></el-input>
+            #else
+                <el-input v-model="dataForm.${column.attr}" placeholder="${column.fieldLabel}"></el-input>
+            #end
+        </el-form-item>
+    #end
+#end
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+      <el-button @click="visible = false">取消</el-button>
+      <el-button type="primary" @click="dataFormSubmit()">确定</el-button>
+    </span>
+    </el-dialog>
+</template>
+
+<script>
+    import * as API from '@/api/${pathName}'
+#foreach($column in $columns)
+    #if ($column.refTable)
+    import * as  ${column.lowRefClassName}Api from '@/api/${column.refPathName}'
+    #end
+#end
+    import dataDictionary from '@/mixins/data-dictionary'
+    import CrudSelect from '@/components/avue/crud-select'
+    import CrudCheckBox from '@/components/avue/crud-checkbox'
+    import CrudRadio from '@/components/avue/crud-radio'
+    import UploadFiles from '@/components/UploadFiles'
+    import UploadImages from '@/components/UploadImages'
+    import mixinFormViewModule from '@/mixins/form-view-module'
+
+    export default {
+        components: { CrudSelect,CrudCheckBox,CrudRadio, UploadFiles,UploadImages},
+        mixins: [mixinFormViewModule, dataDictionary],
+        data() {
+            return {
+                mixinViewModuleOptions: {
+                    getInfoAPI: API.info, // 数据详情列表接口，API地址
+                    addAPI: API.add, // 新增接口，API地址
+                    updateAPI: API.update // 修改接口，API地址
+                },
+#foreach($column in $columns)
+    #if ($column.refTable)
+            ${column.lowRefClassName}List: [],
+    #end
+#end
+                dataForm: {
+#foreach($column in $columns)
+    ${column.attr}: ''#if($velocityCount != $columns.size()),#end
+#end
+                }
+           }
+        },
+        methods: {
+            initInfoBefore() {
+                this.$nextTick(() => {
+#foreach($column in $columns)
+    #if ($column.refTable)
+        ${column.lowRefClassName}Api.select().then(res => {
+                if (res.code == 0 && res.data) {
+                   this.${column.lowRefClassName}List = res.data
+                }
+        })
+    #end
+#end
+                })
+            },
+#foreach($column in $columns)
+    #if ($column.formType == 'imageselect'||$column.formType == 'fileselect')
+           ${column.attr}ModifyHandle(res) {
+            this.$set(this.dataForm, '${column.attr}', res.join(','))
+           }
+    #end
+#end
+
+      }
+    }
+</script>

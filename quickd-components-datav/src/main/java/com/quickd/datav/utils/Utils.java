@@ -1,0 +1,121 @@
+package com.quickd.datav.utils;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.util.ResourceUtils;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.Base64;
+import java.util.Base64.Decoder;
+
+public class Utils {
+	public static final String rootPath ="/app/static";
+
+	public static final String dashboardPath = "/upload/dashboards/";
+
+	public static final String imagesPath = "/upload/images/";
+
+	public static final String csvPath = "/csv/";
+	
+	public static String getRootPath(){
+	/*	File rootPath = new File(ResourceUtils.getURL("classpath:").getPath());
+		return rootPath.getAbsolutePath();*/
+		return rootPath;
+	}
+	
+
+	public static String getDashboardPath() {
+		return dashboardPath;
+	}
+	
+	public static String getImagesPath() {
+		return imagesPath;
+	}
+	
+	public static String getCsvPath() {
+		return csvPath;
+	}
+	
+	public static String hash(String password) {
+		try {
+            MessageDigest digest = MessageDigest.getInstance("md5");
+            byte[] result = digest.digest(password.getBytes());
+            StringBuffer buffer = new StringBuffer();
+
+            for (byte b : result) {
+                int number = b & 0xff;// 加盐
+                String str = Integer.toHexString(number);
+                if (str.length() == 1) {
+                    buffer.append("0");
+                }
+                buffer.append(str);
+            }
+
+            return buffer.toString();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            return "";
+        }
+	}
+	
+	public static String uploadFile(byte[] file, String filePath, String fileName) throws Exception {
+		File targetFile = new File(getRootPath() + filePath);
+		if(!targetFile.exists()) {
+			targetFile.mkdirs();
+		}
+		
+		FileOutputStream out = new FileOutputStream(getRootPath()  +filePath + fileName);
+		out.write(file);
+		out.flush();
+		out.close();
+		
+		return filePath + fileName;
+	}
+	
+	public static String createImage(String srcPath, String id) throws Exception {
+		if(srcPath == null) {
+			return null;
+		}
+		
+		Decoder decoder = Base64.getDecoder();
+		byte[] decoderBytes = decoder.decode(srcPath.split(",")[1]);
+		
+		String filePath = getDashboardPath();
+		String fileName = id + ".png";
+		return uploadFile(decoderBytes,filePath, fileName);
+	}
+
+	public static Object uploadImage(String id, MultipartFile file) throws IllegalStateException, IOException, NullPointerException{
+		System.out.println("id="+id);
+		if(!file.isEmpty()) {
+			String fileName = file.getOriginalFilename();
+			String suffixName = fileName.substring(fileName.lastIndexOf("."));
+			String hashName = Utils.hash(fileName)+suffixName;
+			if(suffixName.equalsIgnoreCase(".jpg") || suffixName.equalsIgnoreCase(".jpeg") || suffixName.equalsIgnoreCase(".png")) {
+				File uploadPath = new File(getRootPath() + getImagesPath() + id + "/img/");
+				File uploadFile = new File(getRootPath() + getImagesPath() + id + "/img/" ,hashName);
+				if(!uploadPath.exists()) {
+					uploadPath.mkdirs();
+				}
+				if(!uploadFile.exists()) {
+					uploadFile.createNewFile();
+				}
+				
+				file.transferTo(uploadFile);
+				return getImagesPath() + id + "/img/" + hashName;
+			}else {
+				return null;
+			}
+		}else {
+			System.out.println("files is empty!");
+			return null;
+		}
+		
+	}
+}

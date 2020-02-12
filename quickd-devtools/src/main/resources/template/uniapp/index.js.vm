@@ -1,0 +1,27 @@
+import request from '@/common/request.js'
+
+// 列表
+export function list(param){
+	return request.get('/${pathName}/list',param,{'Content-type': 'application/json;charset=UTF-8'})
+}
+// 获取信息
+export function info(id){
+	return request.get('/${pathName}/' + id)
+}
+
+// 下拉列表
+export function select(param){
+	return request.get('/${pathName}/select',param,{'Content-type': 'application/json;charset=UTF-8'})
+}
+// 新增
+export function add(param){
+	return request.post('/${pathName}',param,{'Content-type': 'application/json;charset=UTF-8'})
+}
+// 修改
+export function update(param){
+	return request.put('/${pathName}',param,{'Content-type': 'application/json;charset=UTF-8'})
+}
+// 删除
+export function del(param){
+	return request.dele('/${pathName}',param,{'Content-type': 'application/json;charset=UTF-8'})
+}

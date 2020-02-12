@@ -1,0 +1,83 @@
+# Tomcat
+server:
+    tomcat:
+        uri-encoding: UTF-8
+        max-threads: 1000
+        min-spare-threads: 30
+    port: 8080
+    connection-timeout: 5000ms
+    servlet:
+      context-path: /${project.name}
+      multipart:
+          max-file-size: 10MB
+          max-request-size: 10MB
+# mysql
+spring:
+    # 环境 dev|stage|prod
+    profiles:
+        active: @profileActive@
+    messages:
+        encoding: UTF-8
+        basename: i18n/messages
+    datasource:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driverClassName: com.mysql.jdbc.Driver
+    # jackson时间格式化
+    jackson:
+        time-zone: GMT+8
+        date-format: yyyy-MM-dd HH:mm:ss
+    resources: # 指定静态资源的路径
+      static-locations: classpath:/public/
+    servlet:
+     multipart:
+       max-file-size: 10MB
+       max-request-size: 10MB
+#mybatis
+mybatis-plus:
+  mapper-locations: classpath*:mapper/**/*.xml
+  #实体扫描，多个package用逗号或者分号分隔
+  typeAliasesPackage: com.quickd.shiro.sys.entity, com.quickd.core.entity
+  global-config:
+    #数据库相关配置
+    db-config:
+      #主键类型  AUTO:"数据库ID自增", INPUT:"用户输入ID", ID_WORKER:"全局唯一ID (数字类型唯一ID)", UUID:"全局唯一ID UUID";
+      id-type: ID_WORKER_STR
+      #字段策略 IGNORED:"忽略判断",NOT_NULL:"非 NULL 判断"),NOT_EMPTY:"非空判断"
+      field-strategy: NOT_NULL
+      #驼峰下划线转换
+      column-underline: true
+      capital-mode: true
+      #db-type: mysql
+    banner: false
+  #原生配置
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+    call-setters-on-nulls: true
+    jdbc-type-for-null: 'null'
+
+# Swagger界面内容配置
+swagger:
+  title: QuickD API接口文档
+  description: QuickD Api Documentation
+  version: 1.0.0
+  termsOfServiceUrl: https://website.jhyj56.com
+  contact:
+    name: QuickD
+    url: https://website.jhyj56.com
+    email: 621179326@qq.com
+
+jasypt:
+  encryptor:
+    password: quickd
+
+jwt:
+  token:
+    # 头部token
+    header: token
+    # token前缀
+    prefix: QuickD_
+    # token加密密钥
+    secret: quickd2019CCF
+    # 默认过期时间（小时）
+    expiration: 7200

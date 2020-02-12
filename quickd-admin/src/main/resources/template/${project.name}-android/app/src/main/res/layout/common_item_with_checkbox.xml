@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.allen.library.SuperTextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root_item"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    app:sCenterViewGravity="left_center"
+    app:sLeftIconHeight="50dp"
+    app:sLeftIconWidth="50dp"
+    app:sRightCheckBoxRes="@drawable/checkbox_selector"
+    app:sLeftLines="1"
+    app:sLeftViewGravity="left_center"
+    app:sRightViewType="checkbox"/>

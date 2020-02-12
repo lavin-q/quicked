@@ -1,0 +1,16 @@
+/**************************\
+	name: index.scss
+	author: gsj
+	date: 2019-07-29
+	desc: 样式集合
+\**************************/
+// 变量
+@import './element-variables.scss';   // 设置element的参数
+@import './variables.scss';           // 设置公共样式参数
+@import './mixin.scss';               // 混入样式
+@import './transition.scss';          // 动画样式
+@import './element-ui.scss';          // element-ui样式修改
+@import './base.scss';                // 基础样式
+@import './common.scss';              // 全局公共样式
+@import './page.scss';                // 页面样式
+

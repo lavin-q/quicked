@@ -1,0 +1,30 @@
+package ${package}.${moduleName}.${classname};
+
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.view.View;
+
+import com.chenenyu.router.Router;
+import com.chenenyu.router.annotation.InjectParam;
+import com.chenenyu.router.annotation.Route;
+import ${package}.${moduleName}.R;
+import ${package}.${moduleName}.base.AppBaseActivity;
+/**
+ * ${className}Activity
+ *
+ * @author Charles
+ */
+@Route(value = "${className}Activity", interceptors = "Login")
+public class ${className}Activity extends AppBaseActivity {
+    @Override
+    protected void onSetup(Bundle savedInstanceState) {
+        this.showToolbar = true;
+        super.onSetup(savedInstanceState);
+        Router.injectParams(this);
+        toolbar.setTitleMainText("${comments}").setRightTextDrawable(R.mipmap.ic_upload)
+                .setOnRightTextClickListener(view1 -> Router.build("${className}Add")
+                        .go(this));
+        replaceFragment((Fragment) Router.build("${className}ListFragment").getFragment(this));
+    }
+
+}

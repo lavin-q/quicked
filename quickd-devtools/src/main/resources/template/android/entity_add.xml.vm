@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              style="@style/RootView">
+    <com.idogfooding.backbone.widget.TopBar
+            android:id="@+id/toolbar"
+            app:title_leftTextDrawable="@mipmap/ic_back"
+            style="@style/Toolbar"/>
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+#foreach($column in $columns)
+    #if($column.isInsert =='1')
+        #if($column.attrType=="Date")
+
+            <LinearLayout
+                    android:id="@+id/view_${column.attr}"
+                    style="@style/FormItem">
+
+                <TextView
+                        style="@style/FormItemTitle"
+                        android:text="${column.fieldLabel}"
+                        android:textSize="16sp"/>
+
+                <EditText
+                        android:id="@+id/et_${column.attr}"
+                        style="@style/FormItemContent.NoEdit"
+                        android:hint="请选择${column.fieldLabel}"/>
+
+                <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:contentDescription="TODO" android:src="@mipmap/ic_arrow_right"/>
+            </LinearLayout>
+       #elseif($column.colName.endsWith("url"))
+            <TextView
+                    style="@style/FormItemTitle"
+                    android:text="${column.fieldLabel}"
+                    android:textSize="16sp" />
+            <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_photos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="15dp"/>
+        #elseif($column.colType == 'text')
+            <LinearLayout
+                    android:id="@+id/view_${column.attr}"
+                    style="@style/FormItem">
+
+                <TextView
+                        style="@style/FormItemTitle"
+                        android:text="${column.fieldLabel}"
+                        android:textSize="16sp"/>
+
+                <EditText
+                        android:id="@+id/et_${column.attr}"
+                        style="@style/FormItemContent"
+                        android:hint="请输入${column.fieldLabel}"
+                        android:minLines="8"
+                        android:maxLines="10"
+                        android:scrollbars="vertical"/>
+
+            </LinearLayout>
+
+        #elseif($column.attrType=="Double"||$column.attrType=="double")
+            <LinearLayout
+                    android:id="@+id/view_${column.attr}"
+                    style="@style/FormItem">
+
+                <TextView
+                        style="@style/FormItemTitle"
+                        android:text="${column.fieldLabel}"
+                        android:textSize="16sp"/>
+
+
+                <EditText
+                        android:id="@+id/et_${column.attr}"
+                        style="@style/FormItemContent"
+                        android:inputType="number|numberDecimal"
+                        android:hint="请输入${column.fieldLabel}"/>
+
+            </LinearLayout>
+
+        #elseif(!$column.refType)
+            <LinearLayout
+                    android:id="@+id/view_${column.attr}"
+                    style="@style/FormItem">
+
+                <TextView
+                        style="@style/FormItemTitle"
+                        android:text="${column.fieldLabel}"
+                        android:textSize="16sp"/>
+
+                <EditText
+                        android:id="@+id/et_${column.attr}"
+                        style="@style/FormItemContent.NoEdit"
+                        android:hint="请选择${column.fieldLabel}"/>
+
+                <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:contentDescription="TODO" android:src="@mipmap/ic_arrow_right"/>
+            </LinearLayout>
+
+        #else
+            <LinearLayout
+                    android:id="@+id/view_${column.attr}"
+                    style="@style/FormItem">
+
+                <TextView
+                        style="@style/FormItemTitle"
+                        android:text="${column.fieldLabel}"
+                        android:textSize="16sp"/>
+
+                <EditText
+                        android:id="@+id/et_${column.attr}"
+                        style="@style/FormItemContent"
+                        android:hint="请输入${column.fieldLabel}"/>
+            </LinearLayout>
+        #end
+    #end
+#end
+
+
+            </LinearLayout>
+        </ScrollView>
+
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:layout_alignParentBottom="true"
+                android:orientation="horizontal">
+
+            <Button
+                    android:id="@+id/btn_submit"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/primary"
+                    android:text="保存"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_medium"/>
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+</LinearLayout>

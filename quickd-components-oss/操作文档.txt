@@ -1,0 +1,25 @@
+1.在pom.xml文件中配置依赖
+	<dependency>
+		<groupId>com.quickd</groupId>
+		<artifactId>quickd-components-oss</artifactId>
+		<version>1.0.0</version>
+	</dependency>
+
+2.在application.yml文件中配置
+
+1)支持oss文件上传的配置
+aliyun:
+  #服务器地址
+  endpoint: oss-cn-hangzhou.aliyuncs.com
+  #去控制台获取keyId
+  accessKeyId: LTAI4FpFPUTR5njY7QSv1Gzr
+  #去控制台获取keySecret
+  accessKeySecret: WiPI0wBOT8VPiv4xDQ8jPmibrBHrvn
+  #自己创建的bucket的名字
+  bucketName: quickd
+  #文件访问域名
+  urlPrefix: https://quickd.oss-cn-hangzhou.aliyuncs.com/
+
+2)支持本地文件上传的配置
+attach:
+  upload-path: D:/upload/

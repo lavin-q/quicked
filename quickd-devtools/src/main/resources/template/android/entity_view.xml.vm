@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/RootView">
+    <!-- toolbar -->
+    <com.idogfooding.backbone.widget.TopBar
+        android:id="@+id/toolbar"
+        app:title_leftTextDrawable="@mipmap/ic_back"
+        style="@style/Toolbar" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/bottom_btns">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+#foreach($column in $columns)
+    #if($column.colName !='id'&&$column.isInsert =='1')
+                <LinearLayout
+                    style="@style/FormItem">
+                    <TextView
+                        style="@style/FormItemTitle"
+                        android:text="${column.fieldLabel}"
+                        android:textSize="16sp" />
+                    <TextView
+                        android:id="@+id/tv_${column.attr}"
+                        style="@style/FormItemContent"
+                        android:hint="${column.fieldLabel}" />
+                </LinearLayout>
+    #end
+#end
+            </LinearLayout>
+        </ScrollView>
+        <include
+            android:id="@+id/bottom_btns"
+            layout="@layout/bottom_btns"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_alignParentBottom="true" />
+    </RelativeLayout>
+
+</LinearLayout>

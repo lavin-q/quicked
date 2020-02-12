@@ -1,0 +1,626 @@
+/**************************\
+	name: common.scss
+	author: gsj
+	date: 2019-07-29
+	desc: 全局公共样式
+\**************************/
+
+// 变量
+// @import './variables.scss';
+
+/**
+  1、app全局框架样式
+  2、Navbar
+  3、Sidebar
+
+**/
+
+/* app全局框架样式
+------------------------------ */
+#app{
+  height: 100%;
+}
+
+// 内容块
+.app-main-content {
+  padding: $content--padding;
+}
+.pagination-wrapper{
+  @include clearfix;
+  padding: $content-pagination--padding 0 0;
+}
+
+/* Navbar
+------------------------------ */
+.header-navbar{
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  overflow: hidden;
+  height: $navbar--height;
+  line-height: $navbar--height;
+  border-radius: 0px !important;
+  -webkit-box-shadow: 0 1px 4px rgba(0,21,41,.08);
+  box-shadow: 0 1px 4px rgba(0,21,41,.08);
+  font-size:$navbar--text-size;
+  background-color: $navbar--background-color;
+
+  .header-navbar__menu {
+    background-color: transparent;
+    border-bottom: 0 !important;
+
+    .el-menu-item, .el-submenu{
+      *{
+        //vertical-align: initial;
+      }
+    }
+
+    .el-menu-item, .el-submenu > .el-submenu__title {
+      color:$navbar--text-color;
+      height: $navbar--height !important;
+      line-height: $navbar--height !important;
+      padding: 0 10px;
+      border-color: transparent !important;
+
+      &:focus, &:hover {
+        color: $navbar--text-hover-color !important;
+        background-color:$navbar--background-color-hover !important;
+      }
+    }
+
+    .el-menu-item {
+      .header-navbar__icon-menu {
+        color:$navbar--text-color;
+        vertical-align: middle;
+        font-size: $navbar--text-size;
+
+        &.header-navbar__icon-menu--switch{
+          -webkit-transition: 0.5s;
+          transition: 0.5s;
+          -webkit-transform-origin: 50% 50%;
+          transform-origin: 50% 50%;
+        }
+      }
+      .el-dropdown {
+        color:$navbar--text-color !important;
+        .el-icon-arrow-down {
+          width: auto;
+          font-size: 12px;
+          margin: 0 0 0 5px;
+          transition: transform .3s;
+          color:inherit;
+        }
+      }
+      &:focus, &:hover {
+        background-color:$navbar--background-color-hover !important;
+
+        .header-navbar__icon-menu {
+          color: $navbar--text-hover-color !important;
+        }
+        .el-dropdown {
+          color: $navbar--text-hover-color !important;
+          .el-icon-arrow-down {
+            color: $navbar--text-hover-color !important;
+            transform: rotateZ(180deg);
+          }
+        }
+      }
+    }
+    .el-submenu {
+      .el-submenu__title i{
+        color:$navbar--text-color;
+      }
+      &:focus, &:hover {
+        background-color:$navbar--background-color-hover !important;
+        .el-submenu__title i{
+          color:$navbar--background-color-hover;
+        }
+      }
+    }
+  }
+
+  &.header-navbar--blue{
+    background-color: $navbar-blue--background-color;
+
+    .el-menu-item, .el-submenu > .el-submenu__title {
+      color:$navbar-blue--text-color;
+
+      &:focus, &:hover {
+        color: $navbar-blue--text-hover-color !important;
+        background-color:$navbar-blue--background-color-hover !important;
+      }
+    }
+
+    .el-menu-item {
+      .header-navbar__icon-menu {
+        color:$navbar-blue--text-color;
+      }
+      .el-dropdown {
+        color:$navbar-blue--text-color !important;
+      }
+      &:focus, &:hover {
+        background-color:$navbar-blue--background-color-hover !important;
+
+        .header-navbar__icon-menu {
+          color: $navbar-blue--text-hover-color !important;
+        }
+        .el-dropdown {
+          color: $navbar-blue--text-hover-color !important;
+          .el-icon-arrow-down {
+            color: $navbar-blue--text-hover-color !important;
+          }
+        }
+      }
+    }
+    .el-submenu {
+      .el-submenu__title i{
+        color:$navbar-blue--text-color;
+      }
+      &:focus, &:hover {
+        background-color:$navbar-blue--background-color-hover !important;
+        .el-submenu__title i{
+          color:$navbar-blue--background-color-hover;
+        }
+      }
+    }
+  }
+
+  &.header-navbar--colorful{
+    background-color: $navbar-colorful--background-color;
+
+    .el-menu-item, .el-submenu > .el-submenu__title {
+      color:$navbar-colorful--text-color;
+
+      &:focus, &:hover {
+        color: $navbar-colorful--text-hover-color !important;
+        background-color:$navbar-colorful--background-color-hover !important;
+      }
+    }
+
+    .el-menu-item {
+      .header-navbar__icon-menu {
+        color:$navbar-colorful--text-color;
+      }
+      .el-dropdown {
+        color:$navbar-colorful--text-color !important;
+      }
+      &:focus, &:hover {
+        background-color:$navbar-colorful--background-color-hover !important;
+
+        .header-navbar__icon-menu {
+          color: $navbar-colorful--text-hover-color !important;
+        }
+        .el-dropdown {
+          color: $navbar-colorful--text-hover-color !important;
+          .el-icon-arrow-down {
+            color: $navbar-colorful--text-hover-color !important;
+          }
+        }
+      }
+    }
+    .el-submenu {
+      .el-submenu__title i{
+        color:$navbar-colorful--text-color;
+      }
+      &:focus, &:hover {
+        background-color:$navbar-colorful--background-color-hover !important;
+        .el-submenu__title i{
+          color:$navbar-colorful--background-color-hover;
+        }
+      }
+    }
+  }
+}
+
+.header-title{
+  color:$navbar-blue--text-color !important;
+}
+// 菜单缩进展开按钮动画
+.hideSidebar{
+  .header-navbar__icon-menu.header-navbar__icon-menu--switch{
+    -webkit-transform: rotate(180deg);
+    transform: rotate(180deg);
+  }
+}
+
+.mr-auto {
+  margin-right: auto!important;
+}
+
+/* Sidebar
+------------------------------ */
+.sidebar-container{
+  box-shadow: 1px 1px 3px mix(#000, $sidebar--background-color, 15%);
+  .scrollbar-wrapper {
+    overflow-x: hidden!important;
+    .el-scrollbar__view {
+      height: 100%;
+
+      .el-menu {
+        border: none;
+        height: 100%;
+        width: 100% !important;
+        background-color: $sidebar--background-color;
+
+        .el-menu-item,.el-submenu > .el-submenu__title {
+          color:$sidebar--text-color;
+          height: $sidebar--menu-item-height;
+          line-height: $sidebar--menu-item-height;
+          padding: 0 15px;
+          border-color: transparent !important;
+
+          &:focus,
+          &:hover {
+            color: $sidebar--text-color;
+            background-color: $sidebar--background-color-hover;
+          }
+        }
+
+        .el-menu,
+        .el-submenu.is-opened {
+          // background-color: mix(#000, $sidebar--background-color, 5%);
+        }
+
+        .el-menu-item.is-active,
+        .el-submenu.is-active > .el-submenu__title {
+          color: $sidebar--text-active-color;
+          &:focus,
+          &:hover {
+            color: $sidebar--text-hover-color;
+          }
+        }
+
+        .svg-icon {
+          margin-right: 16px;
+        }
+      }
+
+      .el-menu--popup {
+        .el-menu-item,.el-submenu > .el-submenu__title {
+          background-color: $sidebar--background-color !important;
+
+          &:focus,
+          &:hover {
+            color: $sidebar--text-color;
+            background-color: $sidebar--background-color-hover !important;
+          }
+        }
+      }
+    }
+  }
+  &.left-sidebar--dark{
+    box-shadow: none;
+    .scrollbar-wrapper {
+      .el-scrollbar__view {
+        .el-menu {
+          background-color: $sidebar-dark--background-color;
+
+          .el-menu-item,.el-submenu > .el-submenu__title {
+            color:$sidebar-dark--text-color;
+            border-color: transparent !important;
+
+            &:focus,
+            &:hover {
+              color: $sidebar-dark--text-color;
+              background-color: $sidebar-dark--background-color-hover;
+            }
+          }
+
+          .el-menu,
+          .el-submenu.is-opened {
+            background-color: mix(#000, $sidebar-dark--background-color, 15%);
+          }
+
+          .el-menu-item.is-active,
+          .el-submenu.is-active > .el-submenu__title {
+            color: $sidebar-dark--text-active-color;
+            &:focus,
+            &:hover {
+              color: $sidebar-dark--text-hover-color;
+            }
+          }
+        }
+        .el-menu--popup {
+          .el-menu-item,.el-submenu > .el-submenu__title {
+            background-color: $sidebar-dark--background-color !important;
+
+            &:focus,
+            &:hover {
+              color: $sidebar-dark--text-color;
+              background-color: $sidebar-dark--background-color-hover !important;
+            }
+          }
+        }
+      }
+    }
+  }
+  &.left-sidebar--colorful{
+    box-shadow: none;
+    .scrollbar-wrapper {
+      .el-scrollbar__view {
+        .el-menu {
+          background-color: $sidebar-colorful--background-color;
+
+          .el-menu-item,.el-submenu > .el-submenu__title {
+            color:$sidebar-colorful--text-color;
+            border-color: transparent !important;
+
+            &:focus,
+            &:hover {
+              color: $sidebar-colorful--text-color;
+              background-color: $sidebar-colorful--background-color-hover;
+            }
+          }
+
+          .el-menu,
+          .el-submenu.is-opened {
+            background-color: mix(#000, $sidebar-colorful--background-color, 15%);
+          }
+
+          .el-menu-item.is-active,
+          .el-submenu.is-active > .el-submenu__title {
+            color: $sidebar-colorful--text-active-color;
+            &:focus,
+            &:hover {
+              color: $sidebar-colorful--text-hover-color;
+            }
+          }
+        }
+        .el-menu--popup {
+          .el-menu-item,.el-submenu > .el-submenu__title {
+            background-color: $sidebar-colorful--background-color !important;
+
+            &:focus,
+            &:hover {
+              color: $sidebar-colorful--text-color;
+              background-color: $sidebar-colorful--background-color-hover !important;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.el-menu--vertical{
+  & >.el-menu{
+    .svg-icon{
+      margin-right: 5px;
+    }
+  }
+}
+
+.hideSidebar {
+  .sidebar-container {
+    width: $sidebar--width-fold !important;
+  }
+  .main-container {
+    margin-left: $sidebar--width-fold !important;
+  }
+}
+
+// 适配移动端
+.mobile {
+  .main-container {
+    margin-left: 0 !important;;
+  }
+  .sidebar-container {
+    transition: transform .28s;
+    width: $sidebar--width !important;
+  }
+  &.hideSidebar {
+    .sidebar-container {
+      transition-duration: 0.3s;
+      transform: translate3d(-$sidebar--width, 0, 0);
+    }
+  }
+}
+
+.withoutAnimation {
+  .main-container, .sidebar-container {
+    transition: none;
+  }
+}
+
+
+/* 页面样式
+------------------------------ */
+.panel, .panel-simple {
+  border-radius: 2px;
+  background-color: #fff;
+  box-shadow: 0 1px 2px 0 rgba(0,0,0,.05);
+  margin-bottom: 20px;
+  box-sizing: border-box;
+}
+.panel-simple {
+  min-height: 200px;
+  .panel-header {
+    box-sizing: border-box;
+    height: 45px;
+    line-height: 45px;
+    padding: 0 15px;
+    color: #4d627b;
+    border-radius: 2px 2px 0 0;
+    font-size: 15px;
+    margin: 0;
+    border-bottom: 1px solid rgba(0,0,0,0.07);
+    .panel-heading-inner {
+      float: left;
+      & > svg {
+        font-size: 25px;
+        margin-right: 8px;
+        margin-top: -4px;
+        color: #5dc3ba;
+        vertical-align: middle;
+      }
+    }
+    .panel-heading-right {
+      float: right;
+      text-align: right;
+      cursor: pointer;
+      & > svg {
+        vertical-align: middle;
+        margin-top: -4px;
+        margin-left: 5px;
+      }
+    }
+  }
+  .panel-body {
+    padding: 15px;
+  }
+}
+.panel .panel-header,
+.panel-simple .panel-header {
+  position: relative;
+  display: block;
+  box-sizing: border-box;
+}
+.panel .panel-header:before,.panel .panel-header:after,
+.panel-simple .panel-header:before,.panel-simple .panel-header:after {
+  content: "";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+.panel {
+  .panel-header {
+    min-height: 55px;
+    padding: 0 15px;
+    color: #333;
+    border-radius: 2px 2px 0 0;
+    font-size: 15px;
+    padding-left: 100px;
+    margin-bottom: 15px;
+    .panel-heading-inner {
+      position: absolute;
+      left: -8px;
+      display: inline-block;
+      padding-right: 20px;
+      color: #fff;
+      white-space: nowrap;
+      background-color: #297ace;
+      border-radius: 5px 5px 5px 0;
+      padding: 10px 20px;
+      margin-top: 10px;
+      &:after {
+        position: absolute;
+        bottom: -8px;
+        left: 0;
+        width: 0;
+        height: 0;
+        content: "";
+        border: 4px dashed transparent;
+        border-top-color: #297ace;
+        border-right-color: #297ace;
+      }
+    }
+    .panel-heading-right {
+      float: right;
+      text-align: right;
+      margin-top: 20px;
+      padding-bottom: 5px;
+      border-bottom: 1px solid #e8e3e3;
+      .lic-status-info {
+        display: inline-block;
+        font-size: 12px;
+        margin-right: 8px;
+      }
+    }
+  }
+  .panel-body {
+    padding: 0;
+    padding-bottom: 15px;
+  }
+  .panel-footer {
+    .lic-status {
+      font-size: 15px;
+      color: red;
+    }
+  }
+}
+.panel .panel-header:before,.panel .panel-header:after {
+  content: "";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+.panel .panel-body,
+.panel-simple .panel-body {
+  overflow-y: auto;
+  line-height: 28px;
+  font-size: 13px;
+  font-family: "\5FAE\8F6F\96C5\9ED1","Microsoft Yahei","Hiragino Sans GB",tahoma,arial,"\5B8B\4F53";
+  box-sizing: border-box;
+}
+.panel .panel-footer,
+.panel-simple .panel-footer {
+  padding: 10px 15px;
+  font-size: 13px;
+  color: #9a9a9a;
+  border-top: 1px dashed #ccc;
+  line-height: 24px;
+  box-sizing: border-box;
+}
+.badge-item-move-down {
+  & > .el-badge__content {
+    top: 6px;
+  }
+}
+.logo-item{
+  pointer-events: none;
+  background-color: $navbar-colorful--background-color;
+}
+.logo-con{
+  height:50px;
+  line-height: 50px;
+  font-size:130%;
+  color: white;
+}
+.avatar {
+  margin: 20px 10px 20px 0;
+  color: #1890ff;
+  background: hsla(0,0%,100%,.85);
+  vertical-align: middle;
+}
+.action {
+  cursor: pointer;
+  padding: 0 14px;
+  display: inline-block;
+  transition: all .3s;
+
+  height: 70%;
+  line-height: 46px;
+
+  &.action-full {
+    height: 100%;
+  }
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.3);
+  }
+
+  .avatar {
+    margin: 10px 10px 10px 0;
+    color: #1890ff;
+    background: hsla(0, 0%, 100%, .85);
+    vertical-align: middle;
+  }
+
+  .icon {
+    font-size: 16px;
+    padding: 4px;
+  }
+}
+.el-badge__content.is-fixed {
+  position: absolute;
+  top: 10px !important;
+  right: 10px;
+  -webkit-transform: translateY(-50%) translateX(100%);
+  transform: translateY(-50%) translateX(100%);
+}

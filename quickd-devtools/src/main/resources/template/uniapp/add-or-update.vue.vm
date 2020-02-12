@@ -1,0 +1,336 @@
+<template>
+    <view name="increase">
+        <cu-custom bgColor="bg-red" :isBack="true">
+            <block slot="backText">返回</block>
+            <block slot="content"> {{!dataForm.id ? '新增${comments}' : '修改${comments}'}}</block>
+        </cu-custom>
+        <form>
+#foreach($column in $columns)
+    #if($column.isInsert)
+        #if ($column.attrType==  "Integer")
+            <view class="cu-form-group">
+                <view class="title">${column.fieldLabel}</view>
+                <input v-model="dataForm.${column.attr}"  type="number" placeholder="请输入${column.fieldLabel}"
+                       name="input"></input>
+            </view>
+        #elseif ($column.attrType=="Double"||$column.attrType=="double"||$column.attrType=="BigDecimal")
+            <view class="cu-form-group">
+                <view class="title">${column.fieldLabel}</view>
+                <input v-model="dataForm.${column.attr}"  type="digit" placeholder="请输入${column.fieldLabel}"
+                       name="input"></input>
+            </view>
+        #elseif ($column.attrType == 'Date')
+            <view class="cu-form-group">
+                <view class="title">${column.fieldLabel}</view>
+                <picker mode="date" :value="dataForm.${column.attr}" start="2000-01-01" end="2050-01-01"
+                        @change="Date${column.attrName}Change(this,$event)">
+                    <view class="picker">
+                        <text>请选择日期</text>
+                    </view>
+                </picker>
+            </view>
+        #elseif($column.formType == 'imageselect')
+            <!-- 图片上传 -->
+            <view class="cu-bar bg-white margin-top">
+                <view class="action">
+                    图片上传
+                </view>
+                <view class="action">
+                    {{img${column.attrName}List.length}}/4
+                </view>
+            </view>
+            <view class="cu-form-group">
+                <view class="grid col-4 grid-square flex-sub">
+                    <view class="bg-img" v-for="(item,index) in img${column.attrName}List" :key="index" @tap="View${column.attrName}Image" :data-url="img${column.attrName}List[index]">
+                        <image :src="img${column.attrName}List[index]" mode="aspectFill"></image>
+                        <view class="cu-tag bg-red" @tap.stop="Del${column.attrName}Img" :data-index="index">
+                            <text class='cuIcon-close'></text>
+                        </view>
+                    </view>
+                    <view class="solids" @tap="Choose${column.attrName}Image" v-if="img${column.attrName}List.length<4">
+                        <text class='cuIcon-cameraadd'></text>
+                    </view>
+                </view>
+            </view>
+        #elseif ($column.formType == 'select'&&$column.refTable)
+            <!-- 跳转页面 -->
+            <view class="cu-form-group" style="padding-right: 24upx;" @tap="fuzzySearch${column.lowRefClassName}Handle()">
+                <view class="title required">${column.fieldLabel}</view>
+                <text>{{dataForm.${column.attr}?dataForm.${column.attr}:'请选择${column.fieldLabel}'}}
+                    <text class='cuIcon-right text-grey' style="font-size: 35upx;text-align: right;margin-left: 10upx;"></text>
+                </text>
+            </view>
+        #elseif ($column.formType == 'checkbox'&&$column.dictType)
+            <!-- 多选 -->
+            <view class="cu-form-group margin-top-sm">
+                <view class="title required">${column.fieldLabel}</view>
+                <input style="text-align: right;color: #333333;" name="input" disabled @tap="show${column.attrName}Modal($event)" data-target="Choose${column.attrName}Modal"
+                       v-model="dataForm.${column.attr}" />
+                <text class='cuIcon-right text-gray' @tap="show${column.attrName}Modal($event)" data-target="Choose${column.attrName}Modal"></text>
+            </view>
+        #elseif ($column.formType == 'select'&&$column.dictType)
+            <view class="cu-form-group">
+                <view class="title">${column.fieldLabel}</view>
+            <!-- 普通选择 -->
+            <picker  @change="Picker${column.attrName}Change($event)" :value="dataForm.${column.attr}" :range="${column.attr}List">
+            <view class="picker">
+              {{dataForm.${column.attr}!=''?${column.attr}List[dataForm.${column.attr}]:'请选择${column.fieldLabel}'}}
+            </view>
+           </picker>
+          </view>
+        #elseif ($column.colType == 'text')
+            <!-- 多行文本 -->
+            <view class="cu-form-group">
+                <view class="title">${column.fieldLabel}</view>
+                <textarea v-model="dataForm.${column.attr}" maxlength="-1"
+                          placeholder="请输入${column.fieldLabel}"></textarea>
+            </view>
+        #else
+            <!-- 单行文本 -->
+            <view class="cu-form-group">
+                <view class="title">${column.fieldLabel}</view>
+                <input v-model="dataForm.${column.attr}"
+                       :placeholder="'请输入${column.fieldLabel}'" name="input"></input>
+            </view>
+        #end
+    #end
+#end
+        </form>
+#foreach($column in $columns)
+#if($column.isInsert)
+#if ($column.formType == 'checkbox'&&$column.dictType)
+        <view class="cu-modal bottom-modal" :class="modalName=='Choose${column.attrName}Modal'?'show':''" @tap="hide${column.attrName}Modal">
+            <view class="cu-dialog" @tap.stop="">
+                <view class="cu-bar bg-white">
+                    <view class="action text-gray" @tap="hide${column.attrName}Modal">取消</view>
+                    <view class="action text-green" @tap="submit${column.attrName}Modal">确定</view>
+                </view>
+                <view class="grid col-3 padding-sm">
+                    <view v-for="(item,index) in checkbox${column.attrName}" class="padding-xs" :key="index">
+                        <button class="cu-btn red lg block" :class="item.checked?'bg-red':'line-red'" @tap="Choose${column.attrName}Checkbox" :data-value="item.value">
+                            {{item.name}}
+                        </button>
+                    </view>
+                </view>
+            </view>
+        </view>
+#end
+#end
+#end
+        <view class="padding flex flex-direction">
+            <button class="cu-btn bg-red margin-tb-sm lg" @tap="submit()">保 存</button>
+        </view>
+    </view>
+</template>
+
+<script>
+    import * as API from '@/api/${pathName}'
+    import graceChecker from '@/graceUI/graceChecker.js'
+
+    export default {
+        name: 'increase',
+        data() {
+            return {
+                dataForm: {
+#foreach($column in $columns)
+                  ${column.attr}: ''#if($velocityCount != $columns.size()),#end
+#end
+                 }
+#foreach($column in $columns)
+#if($column.isInsert)
+    #if ($column.formType == 'select'&&$column.dictType)
+                ${column.attr}List: [],
+    #elseif ($column.formType == 'checkbox'&&$column.dictType)
+                modalName: null,
+                checkbox${column.attrName}: [],
+                checkboxName: '', //当前多选框
+    #elseif($column.colName.endsWith("url"))
+                img${column.attrName}List: [],
+    #end
+#end
+#end
+                formRules:[
+#foreach($column in $columns)
+  #if($column.isInsert =='1')
+                    {name: '${column.attr}', checkType: "notnull", checkRule: "", errorMsg: "${column.fieldLabel}不能为空"},
+  #end
+#end
+                 ],
+          }
+        },
+
+        onShow: function(e) {
+            let pages = getCurrentPages();
+            let currPage = pages[pages.length - 1];
+            let selectData = currPage.data.selectData;
+#foreach($column in $columns)
+#if($column.refTable)
+            if(selectData) {
+                this.dataForm.$column.lowRefClassName = selectData.value
+            ## this.dataForm.$column.lowRefClassName = selectData.label
+            }
+#end
+#end
+        },
+        onLoad(options) {
+            if (options.id) {
+                this.dataForm.id = options.id
+                this.infoHandle(options.id)
+            }
+        },
+        methods: {
+            infoHandle(id) {//获取详情
+                let _this = this
+                API.info(id).then(res => {
+                    if (res.code == 0) {
+                        this.dataForm = res.data
+                    }
+                }).catch(err => {
+                });
+            },
+            getCurPage() {/*获取当前路由*/
+                let pages = getCurrentPages();
+                let curPage = pages[pages.length - 1];
+                return curPage
+            },
+
+        ##			RegionChange(e) {
+        ##				${column.attr} = e.detail.value
+        ##			},
+
+
+#foreach($column in $columns)
+#if($column.isInsert =='1')
+#if($column.colName.endsWith("url"))
+            //上传图片
+            Choose${column.attrName}Image() {
+                let _this = this
+                uni.chooseImage({
+                    count: 4, //默认9
+                    sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
+                    sourceType: ['album'], //从相册选择
+                    success: (res) => {
+                        const tempFilePaths = res.tempFilePaths;
+                        const uploadTask = uni.uploadFile({
+                            url : config.websiteBaseUrl + "/oss/upload",
+                            filePath: tempFilePaths,
+                            name: 'file',
+                            header: {
+                                'token': $auth.getUserToken()
+                            },
+                            success: function (result) {
+                                let arr = JSON.parse(result)
+                                var url =""
+                                for(var i=0;arr.length;i++){
+                                    url+=arr[i].name
+                                    url+=",";
+                                }
+                                _this.dataForm.${column.attr} = url.substring(0,url.length-1)
+                            }
+                        });
+                    }
+                });
+            },
+            // 查看大图
+            View${column.attrName}Image(e) {
+                uni.previewImage({
+                    urls: this.img${column.attrName}List,
+                    current: e.currentTarget.dataset.url
+                });
+            },
+            // 删除图片
+            Del${column.attrName}Img(e) {
+                uni.showModal({
+                    title: '提示',
+                    content: '确定要删除这张图片吗？',
+                    cancelText: '再看看',
+                    confirmText: '再见',
+                    success: res => {
+                        if (res.confirm) {
+                            this.img${column.attrName}List.splice(e.currentTarget.dataset.index, 1)
+                        }
+                    }
+                })
+            },
+
+#elseif ($column.formType == 'select'&&$column.dictType)
+            Picker${column.attrName}Change(e) {
+                this.dataForm.${column.attr}= e.detail.value
+            },
+
+#elseif ($column.attrType == 'Date')
+            Time${column.attrName}Change(e) {
+                this.dataForm.${column.attr} = e.detail.value
+            },
+            Date${column.attrName}Change(e) {
+                this.dataForm.${column.attr} = e.detail.value
+            },
+
+#elseif ($column.formType == 'checkbox'&&$column.dictType)
+            show${column.attrName}Modal(e) {
+                this.modalName = e.currentTarget.dataset.target
+            },
+            hide${column.attrName}Modal(e) {
+                this.modalName = null
+            },
+            submit${column.attrName}Modal() { //多选确认
+                this.modalName = null
+                let checkNameList = []
+                let checkbox = this.checkbox${column.attrName}
+                for (let i = 0, len = checkbox.length; i < len; ++i) {
+                    if (checkbox[i].checked) {
+                        checkNameList.push(checkbox[i].value)
+                    }
+                }
+                this.dataForm.${column.attr} = checkNameList.join(",")
+            },
+            Choose${column.attrName}Checkbox(e) {
+                let items = this.checkbox${column.attrName};
+                let values = e.currentTarget.dataset.value;
+                for (let i = 0, len = items.length; i < len; ++i) {
+                    if (items[i].value == values) {
+                        items[i].checked = !items[i].checked;
+                        break
+                    }
+                }
+            },
+
+#elseif ($column.formType == 'select'&&$column.refTable)
+            fuzzySearch${column.lowRefClassName}Handle() { //模糊搜索
+                    uni.navigateTo({
+                        url: "./fuzzy-search"
+                    })
+            },
+    #end
+#end
+#end
+            submit() {
+                //进行表单检查
+                var checkRes = graceChecker.check(this.dataForm, this.formRules);
+                if(!checkRes){
+                    uni.showToast({ title: graceChecker.error, icon: "none" });
+                    return;
+                }
+                API[this.dataForm.id?'update':'add'](this.dataForm).then( res => {
+                    if(res.code == 0){
+                        uni.showToast({
+                            title: '保存成功',
+                            icon:"success"
+                        });
+                        setTimeout(function () {
+                            uni.reLaunch({
+                                url: "./index"
+                            })
+                        }, 2000);
+
+                    }
+                }).catch( err => {
+
+                });
+            }
+        }
+    }
+</script>
+
+<style>
+</style>

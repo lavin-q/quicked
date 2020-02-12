@@ -1,0 +1,100 @@
+/**************************\
+	name: element-ui.scss
+	author: gsj
+	date: 2019-07-29
+	desc: element-ui样式修改
+\**************************/ 
+ 
+ //to reset element-ui default css
+.el-upload {
+  input[type="file"] {
+    display: none !important;
+  }
+}
+
+.el-upload__input {
+  display: none;
+}
+
+//暂时性解决diolag 问题 https://github.com/ElemeFE/element/issues/2461
+.el-dialog {
+  transform: none;
+  left: 0;
+  position: relative;
+  margin: 0 auto;
+}
+
+.el-dialog__body {
+  padding: 5px 10px;
+  color: #606266;
+  font-size: 14px;
+}
+
+//element ui upload
+.upload-container {
+  .el-upload {
+    width: 100%;
+    .el-upload-dragger {
+      width: 100%;
+      height: 200px;
+    }
+  }
+}
+
+/* el-form下的组件 宽度为100%
+------------------------------ */
+.el-form{
+	.el-select,
+	.el-date-editor.el-input,
+	.el-date-editor.el-input__inner,
+	.el-autocomplete,
+	.el-cascader{
+		width: 100%;
+	}
+	// .el-form-item {
+	// 	margin-bottom:15px;
+	// }
+	// .el-form-item__error{
+	// 	padding-top: 0;
+	// }
+}
+
+#app{
+  // .el-card + .el-card {
+  //   margin-top: 15px;
+  // }
+  .el-input__prefix .el-input__icon {
+    display: inline-block;
+    vertical-align: middle;
+  }
+  .el-date-editor .el-range-separator {
+    width: 8%;
+  }
+  .el-table th {
+    color: $--color-text-primary;
+    background-color: $--background-color-base;
+  }
+
+  .el-table {
+    .el-dropdown{
+      .el-dropdown-link {
+        cursor: pointer;
+      }
+
+      &.small{
+        .el-dropdown-link {
+          color: #409EFF;
+          font-size: 12px;
+        }
+        .el-icon-arrow-down {
+          font-size: 12px;
+        }
+      }
+    }
+  }
+}
+
+.el-alert--default.is-light {
+  background-color: $base--theme-light-color;
+  color: mix(#000, $base--theme-light-color, 50%);
+}

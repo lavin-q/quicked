@@ -1,0 +1,46 @@
+package ${package}.service.dto.${moduleName};
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import com.quickd.core.dto.BaseDto;
+import lombok.Data;
+import cn.afterturn.easypoi.excel.annotation.Excel;
+import java.util.Date;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import com.quickd.core.validator.group.AddGroup;
+import com.quickd.core.validator.group.DefaultGroup;
+import com.quickd.core.validator.group.UpdateGroup;
+#if(${hasBigDecimal})
+import java.math.BigDecimal;
+#end
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.quickd.core.annotation.DictAno;
+/**
+ * ${comments}
+ *
+ * @author ${author} ${email}
+ * @since ${date}
+ */
+@Data
+@ApiModel(value = "${comments}")
+public class ${className}DTO extends BaseDto {
+#foreach ($column in $columns)
+  #if($column.colName !='id'&&$column.colName!='create_time' &&$column.colName!='update_time'  &&$column.colName!='update_by'&&$column.colName!='create_by' && $column.colName!= 'del_flag' && $column.colName!= 'version'  )
+    #if($column.isNotNull)
+     @ApiModelProperty(value = "$column.fieldLabel" , required = true)
+     @NotBlank(message="$column.fieldLabel 不能为空", groups = DefaultGroup.class)
+    #else
+     @ApiModelProperty(value = "$column.fieldLabel" )
+    #end
+    #if($column.dictType)
+     @DictAno(dicCode = "$column.dictType")
+    #end
+     @Excel(name = "$!column.fieldLabel")
+        #if($column.attrType=="Date")
+     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+        #end
+     private $column.attrType $column.attr;
+  #end
+#end
+}

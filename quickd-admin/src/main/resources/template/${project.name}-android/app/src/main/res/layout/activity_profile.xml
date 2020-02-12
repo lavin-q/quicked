@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              style="@style/Layout">
+    <!-- toolbar -->
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@id/srl_container"
+        style="@style/Layout">
+
+        <ScrollView style="@style/Layout">
+
+            <LinearLayout style="@style/Layout">
+
+                <!-- header -->
+                <LinearLayout
+                    android:id="@+id/l_avatar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/primary"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingBottom="20dp"
+                    android:paddingTop="50dp">
+
+                    <com.allen.library.CircleImageView
+                        android:id="@+id/iv_avatar"
+                        android:layout_width="68dp"
+                        android:layout_height="68dp"
+                        android:scaleType="centerCrop"
+                        android:src="@mipmap/ic_launcher"/>
+
+                    <TextView
+                        android:id="@+id/tv_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="18dp"
+                        android:text="注册/登录"
+                        android:textColor="@color/white"
+                        android:textSize="14sp"/>
+
+                </LinearLayout>
+
+                <com.allen.library.SuperTextView
+                    android:id="@+id/tv_settings"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    app:sLeftIconHeight="30dp"
+                    app:sLeftIconRes="@mipmap/ic_settings"
+                    app:sLeftIconWidth="30dp"
+                    app:sLeftTextString="设置"/>
+
+                <com.allen.library.SuperTextView
+                    android:id="@+id/tv_feedback"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="20dp"
+                    app:sLeftIconHeight="30dp"
+                    app:sLeftIconRes="@mipmap/ic_feedback2"
+                    app:sLeftIconWidth="30dp"
+                    app:sLeftTextString="建议反馈"
+                    app:sDividerLineType="both"/>
+
+                <com.allen.library.SuperTextView
+                    android:id="@+id/tv_recommend"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    app:sLeftIconHeight="30dp"
+                    app:sLeftIconRes="@mipmap/ic_recommend"
+                    app:sLeftIconWidth="30dp"
+                    app:sLeftTextString="推荐给朋友"/>
+
+                <com.allen.library.SuperTextView
+                    android:id="@+id/tv_about"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    app:sLeftIconHeight="30dp"
+                    app:sLeftIconRes="@mipmap/ic_about"
+                    app:sLeftIconWidth="30dp"
+                    app:sLeftTextString="关于我们"/>
+
+                <com.allen.library.SuperTextView
+                    android:id="@+id/tv_exist"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
+                    app:sLeftIconHeight="30dp"
+                    app:sLeftIconWidth="30dp"
+                    app:sLeftTextString="退出登录"
+                    app:sDividerLineType="both"/>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+</LinearLayout>

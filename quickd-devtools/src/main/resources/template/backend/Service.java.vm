@@ -1,0 +1,14 @@
+package ${package}.service.service.${moduleName};
+
+import com.quickd.core.service.BaseService;
+import ${package}.service.entity.${moduleName}.${className};
+
+/**
+ * ${comments}
+ *
+ * @author ${author} ${email}
+ * @since ${date}
+ */
+public interface I${className}Service extends BaseService<${className}> {
+
+}

@@ -1,0 +1,128 @@
+package ${package}.${moduleName}.${classname};
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
+
+import com.blankj.utilcode.util.ToastUtils;
+import com.chenenyu.router.Router;
+import com.chenenyu.router.annotation.InjectParam;
+import com.chenenyu.router.annotation.Route;
+import com.idogfooding.backbone.network.ApiException;
+import com.idogfooding.backbone.ui.AndroidBug5497Workaround;
+import ${package}.${moduleName}.Const;
+import ${package}.${moduleName}.R;
+import ${package}.${moduleName}.base.AppBaseActivity;
+import ${package}.${moduleName}.network.Api;
+import ${package}.${moduleName}.network.ApiCallback;
+import ${package}.${moduleName}.network.ApiHttpResult;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.model.Response;
+import ${package}.${moduleName}.network.Api;
+
+
+import butterknife.BindView;
+import butterknife.OnClick;
+
+import static ${package}.network.Api.RESPONSE_EXPIRED;
+
+
+/**
+ * 添加车辆
+ *
+ * @author Charles
+ */
+@Route(value = "${className}View", interceptors = "Login")
+public class ${className}ViewActivity extends AppBaseActivity {
+    @InjectParam
+    ${className} data;
+    @InjectParam
+    String viewType = Const.ViewType.VIEW;
+#foreach($column in $columns)
+#if($column.colName.endsWith("url")&&$column.isInsert =='1')
+    //${column.fieldLabel}
+    @BindView(R.id.tv_${column.attr})
+    TextView tv${column.attrName};
+#end
+#end
+    public static final String DELETE_API= Api.getApi() + "${classname}/delete/";
+    @Override
+    protected int getLayoutId() {
+        return R.layout.${classname}_view;
+    }
+
+    @Override
+    protected void onSetup(Bundle savedInstanceState) {
+        this.showToolbar = true;
+        super.onSetup(savedInstanceState);
+        AndroidBug5497Workaround.assistActivity(this);
+        Router.injectParams(this);
+        if (data!=null) {
+            toolbar.setTitleMainText("详情");
+            fillViews();
+        } else {
+            ToastUtils.showLong("页面数据传参错误");
+            finish();
+        }
+    }
+
+    private void fillViews() {
+        if (Const.ViewType.VIEW.equalsIgnoreCase(viewType)) {
+            setTitle("详情");
+#foreach($column in $columns)
+#if($column.colName.endsWith("url")&&$column.isInsert =='1')
+            tv${column.attrName}.setText(data.get${column.attrName}());
+#end
+#end
+        }
+    }
+    private void delete(String id) {
+        OkGo.<ApiHttpResult<${className}>>delete(DELETE_API + id)
+                .tag(this)
+                .execute(new ApiCallback<ApiHttpResult<${className}>>(this, true) {
+                    @Override
+                    public void onSuccessData(Response<ApiHttpResult<${className}>> response, ApiHttpResult<${className}> result) {
+                        if (result.getCode() == 0) {
+                            if (result.getData() != null) {
+                                data = result.getData();
+                                fillViews();
+                            }
+                        }
+                    }
+                    @Override
+                    protected void onApiError
+                            (Response<ApiHttpResult<${className}>> response,
+                             ApiException exception) {
+                        if (exception.getCode() == RESPONSE_EXPIRED) {
+                            super.onApiError(response, exception);
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        if (null != intent && resultCode == RESULT_OK && (requestCode == Const.RequestCode.PHOTOS2_PREVIEW)) {
+
+        } else {
+            super.onActivityResult(requestCode, resultCode, intent);
+        }
+    }
+
+    @OnClick({R.id.btn_left,R.id.btn_right})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.btn_left:
+                Router.build("${className}Add")
+                        .with("data",data)
+                        .with("viewType", Const.ViewType.EDIT)
+                        .go(this);
+                break;
+            case R.id.btn_right:
+               //删除
+                delete(data.getId());
+                break;
+        }
+    }
+}

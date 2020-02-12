@@ -1,0 +1,175 @@
+<template name="list">
+    <view class="content">
+        <cu-custom bgColor="bg-red" :isBack="true">
+            <block slot="backText">返回</block>
+            <block slot="content">${comments}</block>
+        </cu-custom><!-- 状态栏站位 -->
+        <view class="cu-bar bg-red search" :style="[{top:CustomBar+ 'px',opacity:0}]"></view><!-- 占位 -->
+        <view :style="[{position:'fixed',width:'100%','z-index':'99',top:CustomBar+ 'px'}]">
+            <view class="cu-bar bg-red search"><!-- 搜索栏 -->
+                <view class="action">
+                    <picker @change="PickerChange" :value="index" :range="pickerCn">
+                        <view class="picker">
+                            <text>{{index>-1?pickerCn[index]:'请选择'}}</text>
+                            <text class="cuIcon-triangledownfill"></text>
+                        </view>
+                    </picker>
+                </view>
+                <view class="search-form radius" style="margin:0 30upx 0 0">
+                    <text class="cuIcon-search"></text>
+                    <input v-model="searchVal" @focus="InputFocus" @blur="InputBlur" :adjust-position="false" type="text" placeholder="关键字搜索" confirm-type="search"></input>
+                </view>
+                <view class="action" @tap="searchHandle()">
+                    <text>搜索</text>
+                </view>
+            </view>
+        </view>
+        <view style="height:calc(100vh - 250upx)">
+            <mescroll-uni @down="downCallback" @up="upCallback" :fixed='false'>
+                #set($indexFlag=1)
+                <view v-for="(item,index) in dataList" :key="index" @tap="details(item.id)">
+                    <view class="cu-bar bg-white solid-bottom margin-top-sm">
+                        #foreach($column in $columns)
+                            #if($column.isList)
+                                #if($indexFlag==1)
+                                    <view class="action">
+                                        <text class="cuIcon-title text-red"></text>
+                                        <view class="text-black text-lg">
+                                            {{item.${column.attr}}}
+                                        </view>
+                                    </view>
+                                #end
+                                #set( $indexFlag = $indexFlag + 1)
+                            #end
+                        #end
+                        <view class="action">
+                            <view v-if="item.status==1" class='cu-tag bg-green radius'>已完成</view>
+                            <view v-if="item.status==0" class='cu-tag bg-red radius'>未完成</view>
+                        </view>
+                    </view>
+                    #set($indexFlag=1)
+                    <view class="padding bg-white">
+                        <view class="grid col-2">
+                            #foreach($column in $columns)
+                                #if($column.isList&&$column.attr!='status')
+                                    #if($indexFlag > 1)
+                                        <view class="padding-bottom-sm">
+                                            <view class="text-green text-sm">${column.fieldLabel}</view>
+                                            <view class="text-grey text-md">{{item.${column.attr}}}</view>
+                                        </view>
+                                    #end
+                                    #set( $indexFlag = $indexFlag + 1)
+                                #end
+                            #end
+                        </view>
+                    </view>
+                </view>
+            </mescroll-uni>
+        </view>
+        <view class="cu-tabbar-height"></view>
+        <view class="cu-bar tabbar foot bg-white">
+            <button class="cu-btn bg-red lg" style="width: 100%;border-radius: 0!important;" @tap="add">新 增</button>
+        </view>
+    </view>
+
+</template>
+
+<script>
+    import MescrollUni from "@/components/mescroll-uni/mescroll-uni.vue";
+    import * as API from '@/api/${pathName}'
+
+    export default {
+        name: "list",
+        data() {
+            return {
+                CustomBar: this.CustomBar,
+                InputBottom: 0,
+                searchVal: "",
+                dataList: [],
+                mescroll: null,
+                pickerCn:[],//搜索类型选择
+                pickerEn:[],//搜索类型选择
+                index:0,//搜索类型当前选择的下标
+            };
+        },
+        onLoad() {
+        },
+        components: {
+            MescrollUni
+        },
+        methods: {
+            searchHandle() {//点击搜索触发事件
+                this.downCallback(this.mescroll)
+            },
+            InputFocus(e) {
+                this.InputBottom = e.detail.height
+            },
+            InputBlur(e) {
+                this.InputBottom = 0
+            },
+            PickerChange(e) {//搜索类型选择change
+                this.index = e.detail.value
+            },
+            getList(mescroll, page, limit) {//获取list数据
+                let _this = this
+#foreach($column in $columns)
+    #if($column.colName != 'id'&&$column.colName!='create_time' &&$column.colName!='update_time' &&$column.colName!='update_by'&&$column.colName!='create_by' && $column.colName!='del_flag'&& $column.colName!='version' )
+        #if($column.queryType == 'cn'&&$column.isQuery)
+                this.pickerCn.push('${column.fieldLabel}')
+                this.pickerEn.push('${column.colName}')
+        #end
+    #end
+#end
+                let param = {
+                    filters:{"groupOp":"AND","rules":[{"field":this.pickerEn[this.index],"op":"cn","data":this.searchVal}]},
+                    page:page,
+                    limit:limit
+                };
+                API.list(param).then(res => {
+                    if (res.code == 0) {
+                        // this.dataList = res.page.list
+                        // 接口返回的当前页数据列表 (数组)
+                        let curPageData = res.data.list;
+                        // 接口返回的总页数 (比如列表有26个数据,每页10条,共3页; 则totalPage值为3)
+                        let totalPage = res.data.totalPage;
+                        // 接口返回的总数据量(比如列表有26个数据,每页10条,共3页; 则totalSize值为26)
+                        let totalSize = res.data.totalCount;
+                        // 成功隐藏下拉加载状态
+                        //方法一(推荐): 后台接口有返回列表的总页数 totalPage
+                        mescroll.endByPage(curPageData.length, totalPage);
+                        //设置列表数据
+                        if (mescroll.num == 1) this.dataList = []; //如果是第一页需手动置空列表
+                        this.dataList = this.dataList.concat(curPageData); //追加新数据
+                    }
+                }).catch(err => {
+                    // 失败隐藏下拉加载状态
+                    mescroll.endErr()
+                });
+            },
+            /*下拉刷新的回调, 有三种处理方式: */
+            downCallback(mescroll) {
+                this.mescroll = mescroll
+                mescroll.resetUpScroll(); // 重置列表为第一页 (自动执行 page.num=1, 再触发upCallback方法 )
+            },
+            /*上拉加载的回调*/
+            upCallback(mescroll) {
+                // 此时mescroll会携带page的参数:
+                let pageNum = mescroll.num; // 页码, 默认从1开始
+                let pageSize = mescroll.size; // 页长, 默认每页10条
+                this.getList(mescroll, pageNum, pageSize)
+            },
+            details(id) {//跳转到详情页
+                uni.navigateTo({
+                    url: "./info?id=" + id
+                })
+            },
+            add() {
+                //跳转到新增页
+                uni.navigateTo({
+                    url: "./add-or-update"
+                })
+            }
+        }
+    };
+</script>
+

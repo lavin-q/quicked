@@ -1,0 +1,98 @@
+package ${package}.${moduleName}.${classname};
+
+import android.os.Bundle;
+import android.view.View;
+import com.idogfooding.backbone.ui.rv.SpaceDecoration;
+import ${package}.${moduleName}.Const;
+import ${package}.${moduleName}.R;
+import com.chenenyu.router.Router;
+import com.chenenyu.router.annotation.Route;
+import com.idogfooding.backbone.network.ApiException;
+import com.idogfooding.backbone.network.PageResult;
+import com.idogfooding.backbone.ui.rv.RVFragment;
+import ${package}.${moduleName}.network.Api;
+import ${package}.${moduleName}.network.ApiCallback;
+import ${package}.${moduleName}.network.ApiHttpResult;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.model.Response;
+import ${package}.${moduleName}.network.Api;
+
+
+@Route({"${className}ListFragment"})
+public class ${className}ListFragment extends RVFragment<${className}, ${className}ListAdapter> {
+
+    private static final String API_LIST= Api.getApi() + "${classname}/list/";
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.common_list;
+    }
+
+    @Override
+    protected void onConfig(Bundle savedInstanceState) {
+        super.onConfig(savedInstanceState);
+    }
+
+    @Override
+    protected void onSetup(View view, Bundle savedInstanceState) {
+        super.onSetup(view, savedInstanceState);
+        mTopButton.show();
+        loadData(true, false);
+    }
+
+    @Override
+    protected void createAdapter() {
+        mAdapter = new ${className}ListAdapter();
+    }
+
+    @Override
+    protected void cfgAdapter() {
+        setLoadMore(true);
+        super.cfgAdapter();
+        mAdapter.setOnItemClickListener((baseQuickAdapter, view, position) -> {
+            ${className} data = (${className}) baseQuickAdapter.getItem(position);
+            Router.build("${className}View").with("data",data)
+                    .with("viewType", Const.ViewType.VIEW)
+                    .go(this);
+        });
+    }
+
+    @Override
+    protected void loadData(boolean refresh, boolean loadMore) {
+        super.loadData(refresh, loadMore);
+        OkGo.<ApiHttpResult<PageResult<${className}>>>get(API_LIST)
+                .params("pageSize", pageSize)
+                .params("pageNo", pageNumber)
+                .tag(this)
+                .execute(new ApiCallback<ApiHttpResult<PageResult<${className}>>>(this, true) {
+                    @Override
+                    public void onSuccessData(Response<ApiHttpResult<PageResult<${className}>>> response, ApiHttpResult<PageResult<${className}>> data) {
+                        if (data.getCode() == 0) {
+                            if (data.getData() != null) {
+                                onLoadNext(data.getData(), refresh, loadMore);
+                            } else {
+                                mAdapter.setEmptyView(getEmptyView());
+                            }
+                        } else {
+                            mAdapter.setEmptyView(getErrorView());
+                            onLoadApiException(new ApiException(data.getCode(), data.getMsg()));
+                        }
+                        this.showLoading = false;
+                    }
+                    @Override
+                    protected void onApiError
+                            (Response<ApiHttpResult<PageResult<${className}>>> response,
+                             ApiException exception) {
+                        this.showLoading = false;
+                        if (exception.getCode() == 500) {
+                            super.onApiError(response, exception);
+                            this.showLoading = false;
+                        }
+                    }
+                });
+    }
+    @Override
+    protected void cfgItemDecoration() {
+        mRecyclerView.addItemDecoration(new SpaceDecoration(10));
+    }
+}

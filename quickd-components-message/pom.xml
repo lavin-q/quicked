@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.quickd</groupId>
+        <artifactId>quickd</artifactId>
+        <version>1.0.0</version>
+    </parent>
+    <artifactId>quickd-components-message</artifactId>
+    <packaging>jar</packaging>
+    <name>quickd-components-message</name>
+    <properties>
+        <aliyun.core.version>3.2.2</aliyun.core.version>
+        <aliyun.dysmsapi.version>1.1.0</aliyun.dysmsapi.version>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>com.quickd</groupId>
+            <artifactId>quickd-core</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>aliyun-java-sdk-core</artifactId>
+            <version>${aliyun.core.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>aliyun-java-sdk-dysmsapi</artifactId>
+            <version>${aliyun.dysmsapi.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>javax.mail</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+            <version>5.1.9.RELEASE</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.gexin.platform</groupId>
+            <artifactId>gexin-rp-sdk-http</artifactId>
+            <version>4.0.1.7</version>
+        </dependency>
+
+        <!--微信推送功能依赖-->
+        <dependency>
+            <groupId>com.github.binarywang</groupId>
+            <artifactId>weixin-java-mp</artifactId>
+            <version>2.9.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpcore</artifactId>
+            <version>4.4.10</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.5.6</version>
+        </dependency>
+
+    </dependencies>
+
+</project>

@@ -1,0 +1,21 @@
+package ${package}.web.controller.${moduleName};
+
+import ${package}.service.entity.${moduleName}.${className};
+import com.quickd.service.dto.${moduleName}.${className}DTO;
+import ${package}.service.service.${moduleName}.I${className}Service;
+import org.springframework.web.bind.annotation.*;
+import com.quickd.core.controller.BaseController;
+import io.swagger.annotations.Api;
+/**
+ * ${comments}
+ *
+ * @author ${author} ${email}
+ * @since ${date}
+ */
+@RestController
+@RequestMapping("${pathName}")
+@Api(tags="${comments}")
+public class ${className}Controller extends BaseController<I${className}Service, ${className},${className}DTO> {
+
+
+}

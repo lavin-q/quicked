@@ -1,0 +1,91 @@
+/* Base
+-------------------------- */
+$base--line-height: 1.15;
+$base--text-color-primary:#333;
+$base--header-text-color:#909399;
+
+/* 主题色
+-------------------------- */
+// 主题色-浅色
+$base--theme-light-color:#409eff;
+// 主题色-深色
+$base--theme-dark-color:#409eff;
+
+
+/* Background
+-------------------------- */
+$--background-color-base: #f5f7fa !default;
+
+/* text
+-------------------------- */
+$--color-text-primary: #303133 !default;
+$--color-text-regular: #606266 !default;
+$--color-text-secondary: #909399 !default;
+$--color-text-placeholder: #c0c4cc !default;
+
+/* Navbar
+-------------------------- */
+$navbar--height: 50px;
+$navbar--text-size: 16px;
+
+// Navbar -- defalult默认
+$navbar--background-color: #fff;
+$navbar--background-color-hover: #f1f4f5;
+$navbar--text-color: $base--header-text-color;
+$navbar--text-hover-color: mix(#000, $base--header-text-color, 25%);
+// Navbar -- blue蓝色
+$navbar-blue--background-color: rgb(54, 136, 218);
+$navbar-blue--background-color-hover: #409EFF;
+$navbar-blue--text-color: #fff;
+$navbar-blue--text-hover-color: #fff;
+// Navbar -- colorful彩色
+$navbar-colorful--background-color: #409eff;
+$navbar-colorful--background-color-hover: #409eff;
+$navbar-colorful--text-color: #fff;
+$navbar-colorful--text-hover-color: #fff;
+
+/* Sidebar
+-------------------------- */
+$sidebar--width: 200px;
+$sidebar--width-fold: 56px;
+$sidebar--menu-item-height: 50px;
+// Sidebar -- defalult默认白色
+$sidebar--background-color: #fff;
+$sidebar--background-color-hover:#e6fffb;
+$sidebar--text-color: #666;
+$sidebar--text-hover-color: #409eff;
+$sidebar--text-active-color: #409eff;
+// Sidebar -- dark黑色
+$sidebar-dark--background-color: #263238;
+$sidebar-dark--background-color-hover: #2b373d;
+$sidebar-dark--text-color: #8a979e;
+$sidebar-dark--text-hover-color: #c5cbcf;
+$sidebar-dark--text-active-color: #e8eaec;
+// Sidebar --  colorful彩色
+$sidebar-colorful--background-color: #0a428a;
+$sidebar-colorful--background-color-hover: #305d96;
+$sidebar-colorful--text-color: #8ab7f3;
+$sidebar-colorful--text-hover-color: #e8eaec;
+$sidebar-colorful--text-active-color:#fff;
+
+/* Content
+-------------------------- */
+$content--padding: 15px;
+$content-pagination--padding: 10px;
+$content--background-color: #f1f4f5;    // #dedee0
+$content--card-header-height: 40px;
+$content--tabs-header-height: 38px;
+// Content, 填充整屏高度(非tabs状态) = 整屏高度 - 导航条高度 - aui-content上下内边距高度
+$content--fill-height: calc(100vh - #{$navbar--height} - #{$content--padding * 2});
+// Content, 填充整屏高度(是tabs状态) = 整屏高度 - 导航条高度 - tabs组件header高度 - tabs组件content上下内边距高度
+$content--fill-height-tabs: calc(100vh - #{$navbar--height} - #{$content--tabs-header-height} - #{$content--padding * 2});
+
+
+// the :export directive is the magic sauce for webpack
+// https://www.bluematador.com/blog/how-to-share-variables-between-js-and-sass
+:export {
+    sidebarBackgroundColor: $sidebar--background-color;
+    sidebarTextColor: $sidebar--text-color;
+    sidebarTextHoverColor: $sidebar--text-hover-color;
+    sidebarTextActiveColor: $sidebar--text-active-color;
+}

@@ -1,0 +1,137 @@
+<template>
+    <div class="app-main-content">
+        <searchbar ref="searchbar" :searchItems="searchItems" :pagination="pagination"
+                   @resizeSearchbar="resizeSearchbar" @search="getDataList" class="grid-search-bar">
+            <el-button  slot="button" size="small" type="primary" @click="addOrUpdateHandle()">
+                添加
+            </el-button>
+        </searchbar>
+        <el-table
+                :data="dataList"
+                border
+                :height="tableHeight"
+                v-loading="dataListLoading"
+                style="width: 100%;">
+#foreach($column in $columns)
+    #if($column.isList)
+        #if($column.dictType)
+            <el-table-column
+                    prop="${column.attr}_dictText"
+                    label="${column.fieldLabel}">
+            </el-table-column>
+        #else
+           #if($column.formType == 'imageselect')
+               <el-table-column
+                       prop="${column.attr}"
+                       label="${column.fieldLabel}">
+                   <template slot-scope="scope">
+                       <img :src="scope.row.${column.attr}"   style="height: 80px;height: 60px;">
+                   </template>
+               </el-table-column>
+           #else
+            <el-table-column
+                prop="${column.attr}"
+                label="${column.fieldLabel}">
+            </el-table-column>
+           #end
+        #end
+    #end
+#end
+            <el-table-column
+                    fixed="right"
+                    header-align="center"
+                    align="center"
+                    width="150"
+                    label="操作">
+                <template slot-scope="scope">
+                    <el-button type="primary" size="small" @click="addOrUpdateHandle(scope.row.id)">修改
+                    </el-button>
+                    <el-button type="danger" size="small" @click="deleteHandle(scope.row.id)">删除</el-button>
+                </template>
+            </el-table-column>
+        </el-table>
+        <div ref="paginationbar" class="pagination-wrapper">
+            <el-popover
+                    title="下载模板"
+                    placement="top-start"
+                    trigger="hover">
+                <el-button type="success" size="small" @click="downloadImportTemplateHandle('.xls', '出入库流水')">下载导入模板</el-button>
+                <template slot="reference">
+                    <el-upload :action="importUrl" :on-success="importSuccessHandle" class="upload-button" accept=".xls,.xlsx" name="file" multiple>
+                        <el-button :loading="importButtonLoading" size="small" type="primary">导入数据</el-button>
+                    </el-upload>
+                </template>
+            </el-popover>
+            <el-button :loading="exportButtonLoading" type="success" size="small" @click="exportExcelHandle">导出数据</el-button>
+            <el-pagination :page-sizes="[20, 30, 50, 100, 200]" :page-size="pagination.limit" :current-page.sync="pagination.page" :total="pagination.total" style="float:right;" layout="sizes, prev, pager, next, total" @current-change="handleCurrentChange" @size-change="handleSizeChange"/>
+        </div>
+        <!-- 弹窗, 新增 / 修改 -->
+        <add-or-update v-if="addOrUpdateVisible" ref="addOrUpdate" @refreshDataList="getDataList"></add-or-update>
+    </div>
+</template>
+
+<script>
+    import * as API from '@/api/${pathName}'
+    import AddOrUpdate from './${classname}-add-or-update'
+    import Searchbar from '@/components/Searchbar'
+    import mixinViewModule from '@/mixins/view-module'
+    import dataDictionary from '@/mixins/data-dictionary'
+#if(  ${hasDict} )
+    import * as dictApi from '@/api/sys/dict'
+#end
+    export default {
+        mixins: [mixinViewModule, dataDictionary],
+        data() {
+            return {
+                mixinViewModuleOptions: {
+                    getListAPI: API.list,
+                    delAPI: API.del,
+                    exportAPI: API.download,
+                    downloadImportTemplateAPI: API.downloadImportTemplate
+                },
+                searchItems: {
+                    normal: [
+#foreach($column in $columns)
+    #if($column.isQuery&&!$column.dictType)
+        #if ($column.attrType == 'Date')
+             {name: '${column.fieldLabel}', field: '${column.attr}', type: 'daterange',  valueFormat: 'yyyy-MM-dd HH:mm:ss', dbfield: '${column.colName}', dboper: 'bt'},
+        #else
+            {name: '${column.fieldLabel}', field: '${column.attr}', type: 'text', dbfield: '${column.colName}', dboper: '${column.queryType}'},
+        #end
+    #end
+#end
+                    ]
+                },
+                importUrl: ''
+            }
+        },
+        components: {
+            AddOrUpdate,
+            Searchbar
+        },
+        mounted: function () {
+            this.init();
+            const token = this.$store.getters.token
+            this.importUrl = process.env.BASE_API + `/${pathName}/importExcel?token=${token}`
+        },
+        methods: {
+            init(){
+    #foreach($column in $columns)
+        #if ($column.formType == 'select'&&$column.dictType)
+            dictApi.getDict('$column.dictType').then(res => {
+                if (res.code == 0 && res.data) {
+                   this.searchItems.normal.push(     {name: '${column.fieldLabel}', field: '${column.attr}', type: '${column.formType}',options:  res.data, postdifferent: true, dbfield: '${column.colName}', dboper: '${column.queryType}'})
+                }
+            })
+        #end
+    #end
+            },
+            // 导出
+            exportExcelHandle() {
+                let filters = filters = this.$refs.searchbar.get()
+                 const param = Object.assign({ filters: filters })
+                this.exportByApiHandle(param, '.xls', '${comments}')
+            }
+        }
+    }
+</script>

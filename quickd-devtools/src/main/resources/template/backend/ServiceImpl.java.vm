@@ -1,0 +1,19 @@
+package ${package}.service.service.${moduleName}.impl;
+
+import com.quickd.core.service.impl.BaseServiceImpl;
+import ${package}.service.mapper.${moduleName}.${className}Mapper;
+import ${package}.service.entity.${moduleName}.${className};
+import ${package}.service.service.${moduleName}.I${className}Service;
+import org.springframework.stereotype.Service;
+
+/**
+ * ${comments}
+ *
+ * @author ${author} ${email}
+ * @since ${date}
+ */
+@Service
+public class ${className}ServiceImpl extends BaseServiceImpl<${className}Mapper, ${className}> implements I${className}Service {
+
+
+}

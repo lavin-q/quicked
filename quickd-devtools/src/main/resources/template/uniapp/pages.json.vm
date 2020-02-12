@@ -1,0 +1,34 @@
+{
+    "pages" : [
+		{
+		    "path" : "pages/index/index",
+			"style" : {
+				"app-plus" : {
+					"bounce" : "none"
+				}
+			}
+		},
+		{
+		    "path" : "pages/login/login",
+		    "style" : {}
+		}
+
+    ],
+    "globalStyle" : {
+        "navigationBarTextStyle" : "white",
+        "navigationBarBackgroundColor" : "#409EFF",
+        "backgroundColor" : "white",
+		"navigationBarTitleText": "QuickD管理系统",
+		"navigationStyle": "custom"
+    },
+	"usingComponts": true,
+		"condition": {
+		"current": 0,
+		"list": [{
+				"name": "登录",
+				"path": "pages/index/index",
+				"query": ""
+			}
+		]
+	}
+}

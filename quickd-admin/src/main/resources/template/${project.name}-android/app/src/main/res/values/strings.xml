@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">quickd</string>
+    <string name="app_slogan">随时随地,智慧办公</string>
+    <string name="profile">我的</string>
+    <string name="index">首页</string>
+    <string name="skip">跳过</string>
+    <string name="skip_wait">%d秒 跳过</string>
+    <string name="jumping">正在跳转</string>
+</resources>

@@ -1,0 +1,74 @@
+<resources>
+
+    <style name="AppTheme" parent="BaseTheme">
+    </style>
+
+    <style name="Button">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minHeight">0dp</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingBottom">5dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="sCornersRadius">4dp</item>
+        <item name="sSolidColor">@color/primary</item>
+    </style>
+    <style name="FormItem">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">15dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:background">@drawable/bg_underline_white</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:focusable">true</item>
+    </style>
+
+    <style name="FormItemTitle">
+        <item name="android:layout_width">100dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/primary_text</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="FormItemContent">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@null</item>
+        <item name="android:textColor">@color/primary_text</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textCursorDrawable">@drawable/shape_edittext_cursor</item>
+        <item name="android:textColorHint">@color/gray10</item>
+    </style>
+
+    <style name="FormItemContent.NoEdit">
+        <item name="android:focusable">false</item>
+    </style>
+
+    <style name="FormEditArea">
+        <item name="android:id">@id/et_remark</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">100dp</item>
+        <item name="android:background">@color/white</item>
+        <item name="android:inputType">textMultiLine</item>
+        <item name="android:gravity">left|top</item>
+        <item name="android:textCursorDrawable">@drawable/shape_edittext_cursor</item>
+        <item name="android:padding">15dp</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+    <style name="Text" parent="@android:style/Widget.TextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:layout_centerVertical">true</item>
+
+        <item name="android:textSize">@dimen/text_size_medium</item>
+        <item name="android:textColor">@color/primary_text</item>
+    </style>
+</resources>

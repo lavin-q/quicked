@@ -1,0 +1,199 @@
+package ${package}.${moduleName}.${classname};
+
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+
+import com.blankj.utilcode.util.KeyboardUtils;
+import com.blankj.utilcode.util.StringUtils;
+import com.blankj.utilcode.util.ToastUtils;
+import com.chenenyu.router.Router;
+import com.chenenyu.router.annotation.InjectParam;
+import com.chenenyu.router.annotation.Route;
+import com.idogfooding.backbone.network.ApiException;
+import com.idogfooding.backbone.network.PageResult;
+import com.idogfooding.backbone.ui.AndroidBug5497Workaround;
+import ${package}.${moduleName}.Const;
+import ${package}.${moduleName}.R;
+import ${package}.${moduleName}.base.FormActivity;
+import ${package}.${moduleName}.network.Api;
+import ${package}.${moduleName}.network.ApiCallback;
+import ${package}.${moduleName}.network.ApiHttpResult;
+import com.jzxiang.pickerview.TimePickerDialog;
+import com.jzxiang.pickerview.data.Type;
+import com.kongzue.dialog.listener.OnMenuItemClickListener;
+import com.kongzue.dialog.v2.BottomMenu;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.model.Response;
+import android.text.format.DateUtils;
+ import com.idogfooding.backbone.photo.PhotoPickerEntity;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import butterknife.BindView;
+import butterknife.OnClick;
+import ${package}.network.Api;
+
+/**
+ * 添加车辆
+ *
+ * @author Charles
+ */
+@Route(value = {"${className}Add", "${className}Edit"}, interceptors = "Login")
+public class ${className}AddActivity extends FormActivity  {
+
+    @InjectParam
+    ${className} data;
+    @InjectParam
+    String viewType = Const.ViewType.ADD;
+
+#foreach($column in $columns)
+    #if(!$column.colName.endsWith("url")&&$column.isInsert =='1')
+    //${column.fieldLabel}
+    @BindView(R.id.et_${column.attr})
+    EditText et${column.attrName};
+    #end
+#end
+
+    private static final String API_SAVE= Api.getApi() + "${classname}/save/";
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.${classname}_add;
+    }
+
+    @Override
+    protected void onSetup(Bundle savedInstanceState) {
+        this.showToolbar = true;
+        super.onSetup(savedInstanceState);
+        AndroidBug5497Workaround.assistActivity(this);
+        Router.injectParams(this);
+        fillViews();
+    }
+    private void fillViews() {
+        initPhotoPicky();
+        if (Const.ViewType.ADD.equalsIgnoreCase(viewType)) {
+            toolbar.setTitleMainText("新增");
+            if (null == data) {
+                data = new ${className}();
+            }
+            photoAdapter.setNewData(null);
+        } else if (Const.ViewType.EDIT.equalsIgnoreCase(viewType)) {
+            toolbar.setTitleMainText("编辑");
+#foreach($column in $columns)
+    #if($column.isInsert =='1')
+        #if($column.colName.endsWith("url"))
+            List<PhotoPickerEntity> photoPickerEntities = new ArrayList<>();
+            for(String item:data.get${column.attrName}().split(",")) {
+                photoPickerEntities.add(new PhotoPickerEntity(PhotoPickerEntity.TYPE_URL,item ));
+            }
+            photoAdapter.setNewData(photoPickerEntities);
+            photoAdapter.setDeleteEnable(false);
+        #else
+           et${column.attrName}.setText(data.get${column.attrName}());
+        #end
+    #end
+#end
+        }
+    }
+
+    @OnClick({R.id.btn_submit})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.btn_submit:
+                attemptSubmit(view);
+                break;
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        if (resultCode == RESULT_OK && (requestCode == 1001 || requestCode == 1002)) {
+        } else {
+            super.onActivityResult(requestCode, resultCode, intent);
+        }
+    }
+
+    protected void attemptSubmit(View v) {
+#foreach($column in $columns)
+    #if($column.colName.endsWith("url")&&$column.isInsert =='1')
+        String ${column.attr} = et${column.attrName}.getText().toString().trim();
+        if (StringUtils.isEmpty(${column.attr}) ) {
+            ToastUtils.showLong("${column.fieldLabel}不能为空");
+        }else{
+           data.set${column.attrName}(${column.attr});
+         }
+    #end
+#end
+
+        KeyboardUtils.hideSoftInput(v);
+        OkGo.<ApiHttpResult<${className}>>post(API_SAVE)
+                .tag(this)
+                .execute(new ApiCallback<ApiHttpResult<${className}>>(this, true) {
+                    @Override
+                    public void onSuccessData(Response<ApiHttpResult<${className}>> response, ApiHttpResult<${className}> result) {
+                        if (result.getCode() == 0) {
+                            ToastUtils.showLong("处理成功");
+                            setResult(Activity.RESULT_OK);
+                            finish();
+                        } else {
+                            ToastUtils.showLong("处理失败:" + result.getMsg());
+                        }
+                    }
+
+                    @Override
+                    protected void onApiError
+                            (Response<ApiHttpResult<${className}>> response,
+                             ApiException exception) {
+                        if (exception.getCode() == 500) {
+                            super.onApiError(response, exception);
+                        }
+                    }
+                });
+    }
+
+
+#foreach($column in $columns)
+#if($column.isInsert =='1')
+    #if($column.attrType=="Date")
+    @OnClick({R.id.view_${column.attr}})
+    public void on${column.attrName}Click(View view) {
+        switch (view.getId()) {
+            case R.id.view_${column.attr}:
+                new TimePickerDialog.Builder()
+                        .setCallBack((timePickerView, millseconds) -> {
+                            Date date = new Date(millseconds);
+                            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//精确到分钟
+                            String time = format.format(date);
+                            et${column.attrName}.setText(time);
+                        })
+                        .setMaxMillseconds( System.currentTimeMillis() + DateUtils.YEAR_IN_MILLIS )
+                        .setType(Type.ALL)
+                        .setTitleStringId("选择${column.fieldLabel}时间")
+                        .setCyclic(false)
+                        .build().show(getSupportFragmentManager(), "${column.attrName}");
+                break;
+        }
+    }
+    #elseif(!$column.refType)
+    @OnClick({R.id.view_${column.attr}})
+    public void onClick(View view) {
+        BottomMenu.show(this, new String[]{}, new OnMenuItemClickListener() {
+            @Override
+            public void onClick(String text, int index) {
+                //返回参数 text 即菜单名称，index 即菜单索引
+                et${column.attrName}.setText(text);
+            }
+        });
+
+    }
+    #end
+#end
+#end
+
+}

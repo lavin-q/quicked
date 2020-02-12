@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.1.0.RELEASE</version>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.quickd</groupId>
+	<artifactId>quickd-admin</artifactId>
+	<packaging>jar</packaging>
+	<version>1.0.0</version>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.quickd</groupId>
+			<artifactId>quickd-system</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>com.quickd</groupId>-->
+<!--			<artifactId>quickd-components-flowable</artifactId>-->
+<!--			<version>1.0.0</version>-->
+<!--		</dependency>-->
+		<dependency>
+			<groupId>com.quickd</groupId>
+			<artifactId>quickd-components-datav</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.quickd</groupId>
+			<artifactId>quickd-components-oss</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.quickd</groupId>
+			<artifactId>quickd-components-message</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.quickd</groupId>
+            <artifactId>quickd-devtools</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+
+
+	</dependencies>
+
+	<!-- 阿里云maven仓库 -->
+	<repositories>
+		<repository>
+			<id>public</id>
+			<name>aliyun nexus</name>
+			<url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+		</repository>
+	</repositories>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>public</id>
+			<name>aliyun nexus</name>
+			<url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</pluginRepository>
+	</pluginRepositories>
+
+	<build>
+		<finalName>quickd-admin</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<fork>true</fork>
+				</configuration>
+			</plugin>
+			<!-- 跳过单元测试 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<skipTests>true</skipTests>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<profiles>
+		<profile>
+			<id>dev</id>
+			<properties>
+				<profileActive>dev</profileActive>
+			</properties>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+		</profile>
+		<profile>
+			<id>stage</id>
+			<properties>
+				<profileActive>stage</profileActive>
+			</properties>
+		</profile>
+		<profile>
+			<id>prod</id>
+			<properties>
+				<profileActive>prod</profileActive>
+			</properties>
+		</profile>
+	</profiles>
+
+
+</project>

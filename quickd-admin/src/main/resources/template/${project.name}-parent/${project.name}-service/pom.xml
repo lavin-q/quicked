@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<project xmlns="http://maven.apache.org/POM/4.0.0"
+			 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+		<parent>
+			<artifactId>${project.name}-parent</artifactId>
+			<groupId>${project.group}</groupId>
+			<version>1.0.0</version>
+		</parent>
+		<modelVersion>4.0.0</modelVersion>
+		<artifactId>${project.name}-service</artifactId>
+		<packaging>jar</packaging>
+		<description>${project.name}-service</description>
+		<dependencies>
+			<dependency>
+				<groupId>com.quickd</groupId>
+				<artifactId>quickd-core</artifactId>
+				<version>1.0.0</version>
+			</dependency>
+
+			<#if components?? && components.mq??>
+			<dependency>
+				<groupId>com.aliyun.openservices</groupId>
+				<artifactId>ons-client</artifactId>
+				<version>1.2.7.Final</version>
+			</dependency>
+		   </#if>
+
+	<#if components?? && components.mongo??>
+	<!-- 增加mongodb支持 -->
+	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-data-mongodb</artifactId>
+	</dependency>
+</#if>
+
+       </dependencies>
+		<build>
+			<finalName>${project.name}-service</finalName>
+		</build>
+
+	</project>

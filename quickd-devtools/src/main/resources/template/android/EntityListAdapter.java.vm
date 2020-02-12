@@ -1,0 +1,29 @@
+package ${package}.${moduleName}.${classname};
+import com.allen.library.SuperTextView;
+import com.chad.library.adapter.base.BaseViewHolder;
+import com.idogfooding.backbone.ui.rv.RVAdapter;
+import ${package}.${moduleName}.R;
+
+public class ${className}ListAdapter extends RVAdapter<${className}, BaseViewHolder> {
+    public ${className}ListAdapter() {
+        super(R.layout.common_item);
+    }
+    @Override
+    protected void convert(BaseViewHolder holder, ${className} data) {
+        SuperTextView textView = holder.getView(R.id.root_item);
+        textView.setLeftIcon(R.mipmap.ic_launcher);
+        #set($indexFlag=1)
+#foreach($column in $columns)
+#if($column.isList =='1')
+        #if($indexFlag ==1)
+        textView.setLeftTopString(data.get${column.attrName}());
+        #elseif($indexFlag ==2)
+          textView.setLeftBottomString(data.get${column.attrName}());
+        #elseif($indexFlag ==3)
+        textView.setRightBottomString(data.get${column.attrName}());
+        #end
+    #set( $indexFlag = $indexFlag + 1)
+#end
+#end
+    }
+}

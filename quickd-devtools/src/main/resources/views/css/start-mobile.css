@@ -1,0 +1,172 @@
+#main .title{
+  margin-top: 60px;
+}
+.header-box{
+  width: 100%;
+  position: fixed;
+  height: 60px;
+  background: #2a3f44;
+  z-index: 1001;
+  color: #fff;
+  margin: 0;
+  text-align: center;
+  padding: 0;
+}
+.header-box img{
+  height: 60px;
+  margin-top: -17px;
+}
+.header-box h3{
+  display: inline-block;
+}
+hr{
+  margin-top: 0!important;
+  margin-bottom: 10px!important;
+}
+.group-title{
+  font-weight: 700;
+}
+#app{
+  position: fixed;
+}
+form{
+  margin-top: 60px;
+}
+
+.form-horizontal{
+  padding: 0 15px;
+  padding-bottom: 56px;
+}
+form .appSetting, form .projectSetting, form .DBConnect, form .components, form .devTools, form .IDE{
+  margin-left: 70px;
+}
+form .projectSetting label span, form .appSetting label span, form .IDE label span{
+  color: #e7505a;
+  font-size: larger;
+}
+form .projectSetting .items, form .DBConnect .items{
+  display: inline;
+}
+form .projectSetting .items label, form .DBConnect .items label{
+  width: 60px;
+}
+form .projectSetting .items input{
+  margin-left: 15px;
+  width: 120px;
+}
+form .projectSetting .author{
+  margin-left: 15px;
+}
+form .projectSetting .author input{
+  width: 120px;
+  margin-left: 33px;
+}
+form .projectSetting .items,
+form .DBConnect .conUrl,
+form .DBConnect .userName{
+  margin-left: 15px;
+}
+form .DBConnect .conUrl, form .DBConnect .userName{
+  display: inline;
+}
+form .DBConnect input{
+  width: 120px;
+}
+form .DBConnect .conUrl input{
+  margin-left: 17px;
+}
+form .DBConnect .userName input{
+  margin-left: 17px;
+}
+form .appSetting .web input, form .appSetting .module input, form .appSetting .H5 input,  form .appSetting .Rest input{
+  margin-left: 9px;
+}
+form .includeWechat input{
+  margin-left: 28px;
+}
+form .devTools input, form .components input, form .IDE input{
+  margin-left: 15px;
+}
+form .appSetting .web, form .appSetting .H5, form .appSetting .Rest{
+  margin-left: 6px;
+}
+form .module{
+  position: relative;
+  left: 15px;
+}
+form .includeWechat{
+  position: relative;
+  left: 15px;
+}
+form .includeWechat select{
+  height: 25px;
+  margin-right: 25px;
+}
+form .includeWechat .showOption{
+  float: right;
+}
+form .devTools, form .IDE{
+  margin-top: -20px;
+}
+form p{
+  margin-top: 10px;
+  text-align: center;
+}
+form button{
+  width: 210px;
+}
+
+form .payments .modal {
+  display: none; /* 默认隐藏 */
+  position: fixed; /* 根据浏览器定位 */
+  z-index: 1001; /* 放在顶部 */
+  left: 0;
+  top: -20px;
+  width: 100%; /* 全宽 */
+  height: 100%; /* 全高 */
+  background-color: rgba(0,0,0,0.4); /* 背景色 */
+}
+/*模态框内容*/
+form .payments .modal-content {
+  display: flex; /*采用flexbox布局*/
+  flex-direction: column; /*垂直排列*/
+  position: relative;
+  background-color: #fefefe;
+  margin: 10% auto; /*距顶部15% 水平居中*/
+  padding: 5px;
+  border: 1px solid #888;
+  width: 390px;
+  height: 440px;
+  animation: topDown 0.4s; /*自定义动画，从模态框内容上到下出现*/
+}
+@keyframes topDown {
+  from {top: -300px; opacity: 0}
+  to {top: 0; opacity: 1}
+}
+/*模态框头部*/
+form .payments .modal-header {
+  display: flex; /*采用flexbox布局*/
+  flex-direction: row; /*水平布局*/
+  align-items: center; /*内容垂直居中*/
+  justify-content: space-between;
+  padding: 0;
+  margin-top: 55px;
+}
+form .payments .modal-header p{
+  margin-left: 70px;
+}
+form .modal-body{
+  padding: 35px;
+}
+/*关闭X 样式*/
+form .payments .close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+form .payments .close:hover {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
