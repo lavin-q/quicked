@@ -5,7 +5,7 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/quickd?serverTimezone=Hongkong&characterEncoding=utf8&useUnicode=true&useSSL=false&allowPublicKeyRetrieval=true
     username: root
     # Jasypt加密 可到quick-core中找到JasyptUtil加解密工具类生成加密结果 格式为ENC(加密结果) 以下解密结果为123456
-    password: ENC(QfuTdxysR55oL2cPksNiAg==)
+    password: 123456
     druid:
       # 下面为连接池的补充设置，应用到上面所有数据源中
       # 初始化大小，最小，最大
