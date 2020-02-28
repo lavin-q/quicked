@@ -4,7 +4,7 @@ spring:
   driver-class-name: com.mysql.cj.jdbc.Driver
   url: jdbc:mysql://127.0.0.1:3306/quickd?serverTimezone=Hongkong&characterEncoding=utf8&useUnicode=true&useSSL=false&allowPublicKeyRetrieval=true
   username: ztjk
-  password: ENC(48NfBeUAXj0KSpAUNZZk7loLwCloeAmm)
+  password: ztjk4DC@2018
   druid:
    # 下面为连接池的补充设置，应用到上面所有数据源中
    # 初始化大小，最小，最大
