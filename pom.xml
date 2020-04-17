@@ -28,7 +28,7 @@
 		<module>quickd-system</module>
 		<module>quickd-components-oss</module>
 		<module>quickd-components-datav</module>
-		<module>quickd-components-message</module>
+		<!--<module>quickd-components-message</module>-->
 		<module>quickd-devtools</module>
 		<module>quickd-admin</module>
 	</modules>
