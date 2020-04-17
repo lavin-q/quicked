@@ -33,11 +33,11 @@
 			<artifactId>quickd-components-oss</artifactId>
 			<version>1.0.0</version>
 		</dependency>
-		<dependency>
+		<!--<dependency>
 			<groupId>com.quickd</groupId>
 			<artifactId>quickd-components-message</artifactId>
 			<version>1.0.0</version>
-		</dependency>
+		</dependency>-->
 		<dependency>
 			<groupId>com.quickd</groupId>
             <artifactId>quickd-devtools</artifactId>
