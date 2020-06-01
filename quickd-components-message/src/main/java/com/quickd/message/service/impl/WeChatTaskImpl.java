@@ -48,7 +48,6 @@ public class WeChatTaskImpl implements WeChatTask {
      * @return
      * @throws Exception
      */
-    @Override
     public void pushWeChatTemplateMessage(String openId, List<WxMpTemplateData> data) throws WxErrorException {
 
         //配置

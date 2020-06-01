@@ -3,9 +3,7 @@
 package com.quickd.quartz.utils;
 
 import com.quickd.core.common.Status;
-import com.quickd.core.enums.ScheduleEnum;
 import com.quickd.core.exception.BusinessException;
-import com.quickd.core.job.entity.ScheduleJobEntity;
 import org.quartz.*;
 
 /**
@@ -44,10 +42,10 @@ public class ScheduleUtils {
             throw new BusinessException(Status.JOB_ERROR.code(), e);
         }
     }
-
-    /**
+/*
+    *//**
      * 创建定时任务
-     */
+     *//*
     public static void createScheduleJob(Scheduler scheduler, ScheduleJobEntity scheduleJob) {
         try {
         	//构建job信息
@@ -74,9 +72,9 @@ public class ScheduleUtils {
         }
     }
     
-    /**
+    *//**
      * 更新定时任务
-     */
+     *//*
     public static void updateScheduleJob(Scheduler scheduler, ScheduleJobEntity scheduleJob) {
         try {
             TriggerKey triggerKey = getTriggerKey(scheduleJob.getId());
@@ -105,9 +103,9 @@ public class ScheduleUtils {
         }
     }
 
-    /**
+    *//**
      * 立即执行任务
-     */
+     *//*
     public static void run(Scheduler scheduler, ScheduleJobEntity scheduleJob) {
         try {
         	//参数
@@ -118,7 +116,7 @@ public class ScheduleUtils {
         } catch (SchedulerException e) {
             throw new BusinessException(Status.JOB_ERROR.code(), e);
         }
-    }
+    }*/
 
     /**
      * 暂停任务

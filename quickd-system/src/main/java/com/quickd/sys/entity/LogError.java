@@ -8,6 +8,8 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import java.util.Date;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.experimental.Accessors;
 
 /**
@@ -18,7 +20,8 @@ import lombok.experimental.Accessors;
  * @author caochaofeng
  * @since 2019-08-16
  */
-@Data
+@Setter
+@Getter
 @Accessors(chain = true)
 @TableName("sys_log_error")
 public class LogError  {

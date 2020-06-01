@@ -24,7 +24,6 @@ public class SysMailTemplateServiceImpl extends BaseServiceImpl<SysMailTemplateD
     @Autowired
     private EmailUtils emailUtils;
 
-    @Override
     public boolean sendMail(String id, String mailTo, String mailCc, String params) throws Exception{
         Map<String, Object> map = null;
         try {

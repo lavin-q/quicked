@@ -1,29 +1,10 @@
 package com.quickd.message.service.impl;
 
-import com.alibaba.fastjson.JSONObject;
-import com.gexin.rp.sdk.base.IPushResult;
-import com.gexin.rp.sdk.base.impl.AppMessage;
-import com.gexin.rp.sdk.base.impl.ListMessage;
-import com.gexin.rp.sdk.base.impl.SingleMessage;
-import com.gexin.rp.sdk.base.impl.Target;
-import com.gexin.rp.sdk.base.payload.APNPayload;
-import com.gexin.rp.sdk.exceptions.RequestException;
-import com.gexin.rp.sdk.http.IGtPush;
-import com.gexin.rp.sdk.template.LinkTemplate;
-import com.gexin.rp.sdk.template.NotificationTemplate;
-import com.gexin.rp.sdk.template.TransmissionTemplate;
-import com.gexin.rp.sdk.template.style.Style0;
-import com.quickd.core.common.Const;
-import com.quickd.core.config.ConfigFactory;
 import com.quickd.message.service.GetuiPushService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  *
@@ -42,35 +23,63 @@ public class GetuiPushServiceImpl implements GetuiPushService {
      */
     private static int DEFAULT_PUSH_NETWORK_TYPE = 0;
 
+    @Override
+    public String pushToSingle(String msgTitle, String msgText, String transContent, String clientId) {
+        return null;
+    }
 
-//    /**
+    @Override
+    public String pushToList(String msgTitle, String msgText, String transContent, List<String> clientIdList) {
+        return null;
+    }
+
+    @Override
+    public String pushToAll(String msgTitle, String msgText, String transContent) {
+        return null;
+    }
+
+    @Override
+    public String pushLinkToAll(String msgTitle, String msgText, String skipToUrl) {
+        return null;
+    }
+
+    @Override
+    public boolean cancelPushTask(String taskId) {
+        return false;
+    }
+
+    @Override
+    public String sendSingleIos(String msgTitle, String msgText, String transContent, String clientId) {
+        return null;
+    }
+
+    //    /**
 //     * 通知栏显示logo地址
 //     */
 //    @Value("${getui.LogoUrl}")
 //    private String logoUrl;
 
-    @Override
-    public String pushToSingle(String msgTitle, String msgText, String transContent, String clientId) {
+    /*public String pushToSingle(String msgTitle, String msgText, String transContent, String clientId) {
         String config = ConfigFactory.getConfig(Const.GETUI_CONFIG_KEY);
         JSONObject jsonObject = JSONObject.parseObject(config);
-        /**
+        *//**
          * 个推-AppID
-         */
+         *//*
         String appId = jsonObject.getString("appId");
 
-        /**
+        *//**
          * 个推-AppKey
-         */
+         *//*
         String appKey = jsonObject.getString("appKey");
 
-        /**
+        *//**
          * 个推-AppSecret
-         */
+         *//*
         String masterSecret = jsonObject.getString("masterSecret");
 
-        /**
+        *//**
          * 个推-SDK地址
-         */
+         *//*
         String sdkUrl = jsonObject.getString("sdkUrl");
         // 检查数据合法性
         if (StringUtils.isBlank(msgTitle) || StringUtils.isBlank(msgText) || StringUtils.isBlank(transContent) || StringUtils.isBlank(clientId)) {
@@ -111,24 +120,24 @@ public class GetuiPushServiceImpl implements GetuiPushService {
         }
         String config = ConfigFactory.getConfig(Const.GETUI_CONFIG_KEY);
         JSONObject jsonObject = JSONObject.parseObject(config);
-        /**
+        *//**
          * 个推-AppID
-         */
+         *//*
         String appId = jsonObject.getString("appId");
 
-        /**
+        *//**
          * 个推-AppKey
-         */
+         *//*
         String appKey = jsonObject.getString("appKey");
 
-        /**
+        *//**
          * 个推-AppSecret
-         */
+         *//*
         String masterSecret = jsonObject.getString("masterSecret");
 
-        /**
+        *//**
          * 个推-SDK地址
-         */
+         *//*
         String sdkUrl = jsonObject.getString("sdkUrl");
         // 推送给一个用户集合
         ListMessage message = new ListMessage();
@@ -150,13 +159,13 @@ public class GetuiPushServiceImpl implements GetuiPushService {
         // 返回taskId信息
         IGtPush gtPush = new IGtPush(sdkUrl, appKey, masterSecret);
         IPushResult result = gtPush.pushMessageToList(gtPush.getContentId(message), targetList);
-        /*if (null != result) {
+        *//*if (null != result) {
             Map<String, Object> response = result.getResponse();
             //System.out.println(response.toString());
             if (null != response && "ok".equals(response.get("result"))) {
                 return response.get("contentId").toString();
             }
-        }*/
+        }*//*
         if (result != null) {
             return result.getResponse().toString();
         } else {
@@ -173,24 +182,24 @@ public class GetuiPushServiceImpl implements GetuiPushService {
         }
         String config = ConfigFactory.getConfig(Const.GETUI_CONFIG_KEY);
         JSONObject jsonObject = JSONObject.parseObject(config);
-        /**
+        *//**
          * 个推-AppID
-         */
+         *//*
         String appId = jsonObject.getString("appId");
 
-        /**
+        *//**
          * 个推-AppKey
-         */
+         *//*
         String appKey = jsonObject.getString("appKey");
 
-        /**
+        *//**
          * 个推-AppSecret
-         */
+         *//*
         String masterSecret = jsonObject.getString("masterSecret");
 
-        /**
+        *//**
          * 个推-SDK地址
-         */
+         *//*
         String sdkUrl = jsonObject.getString("sdkUrl");
         // 推送给所有APP用户
         AppMessage message = new AppMessage();
@@ -226,24 +235,24 @@ public class GetuiPushServiceImpl implements GetuiPushService {
         }
         String config = ConfigFactory.getConfig(Const.GETUI_CONFIG_KEY);
         JSONObject jsonObject = JSONObject.parseObject(config);
-        /**
+        *//**
          * 个推-AppID
-         */
+         *//*
         String appId = jsonObject.getString("appId");
 
-        /**
+        *//**
          * 个推-AppKey
-         */
+         *//*
         String appKey = jsonObject.getString("appKey");
 
-        /**
+        *//**
          * 个推-AppSecret
-         */
+         *//*
         String masterSecret = jsonObject.getString("masterSecret");
 
-        /**
+        *//**
          * 个推-SDK地址
-         */
+         *//*
         String sdkUrl = jsonObject.getString("sdkUrl");
         // 推送给所有APP用户
         AppMessage message = new AppMessage();
@@ -283,7 +292,7 @@ public class GetuiPushServiceImpl implements GetuiPushService {
         return gtPush.cancelContentId(taskId);
     }
 
-    /**
+    *//**
      * 获得默认透传消息模板
      *
      * @param appId        AppID
@@ -292,7 +301,7 @@ public class GetuiPushServiceImpl implements GetuiPushService {
      * @param msgText      消息内容
      * @param transContent 透传内容
      * @return
-     */
+     *//*
     public NotificationTemplate getDefaultNotificationTemplate(String appId, String appKey, String msgTitle, String msgText, String transContent) {
         // 初始化模板对象
         NotificationTemplate template = new NotificationTemplate();
@@ -320,24 +329,24 @@ public class GetuiPushServiceImpl implements GetuiPushService {
     public String sendSingleIos(String msgTitle, String msgText, String transContent, String clientId) {
         String config = ConfigFactory.getConfig(Const.GETUI_CONFIG_KEY);
         JSONObject jsonObject = JSONObject.parseObject(config);
-        /**
+        *//**
          * 个推-AppID
-         */
+         *//*
         String appId = jsonObject.getString("appId");
 
-        /**
+        *//**
          * 个推-AppKey
-         */
+         *//*
         String appKey = jsonObject.getString("appKey");
 
-        /**
+        *//**
          * 个推-AppSecret
-         */
+         *//*
         String masterSecret = jsonObject.getString("masterSecret");
 
-        /**
+        *//**
          * 个推-SDK地址
-         */
+         *//*
         String sdkUrl = jsonObject.getString("sdkUrl");
         IGtPush push = new IGtPush(sdkUrl, appKey, masterSecret);
 
@@ -397,7 +406,7 @@ public class GetuiPushServiceImpl implements GetuiPushService {
         }
     }
 
-    /**
+    *//**
      * 获得默认链接消息模板
      *
      * @param appId     AppID
@@ -406,7 +415,7 @@ public class GetuiPushServiceImpl implements GetuiPushService {
      * @param msgText   消息内容
      * @param skipToUrl 跳转地址
      * @return
-     */
+     *//*
     private LinkTemplate getDefaultLinkTemplate(String appId, String appKey, String msgTitle, String msgText, String skipToUrl) {
         // 初始化模板对象
         LinkTemplate template = new LinkTemplate();
@@ -426,7 +435,7 @@ public class GetuiPushServiceImpl implements GetuiPushService {
         // 设置打开的网址地址
         template.setUrl(skipToUrl);
         return template;
-    }
+    }*/
 
 
 }

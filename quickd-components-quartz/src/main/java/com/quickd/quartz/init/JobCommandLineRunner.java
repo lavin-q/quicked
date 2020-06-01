@@ -3,15 +3,11 @@
 package com.quickd.quartz.init;
 
 import com.quickd.quartz.dao.ScheduleJobMapper;
-import com.quickd.core.job.entity.ScheduleJobEntity;
-import com.quickd.quartz.utils.ScheduleUtils;
-import org.quartz.CronTrigger;
 import org.quartz.Scheduler;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+import javax.annotation.Resource;
 
 /**
  * 初始化定时任务数据
@@ -20,12 +16,17 @@ import java.util.List;
  */
 @Component
 public class JobCommandLineRunner implements CommandLineRunner {
-    @Autowired
+    @Resource
     private Scheduler scheduler;
-    @Autowired
+    @Resource
     private ScheduleJobMapper scheduleJobMapper;
 
     @Override
+    public void run(String... args) throws Exception {
+
+    }
+
+    /*@Override
     public void run(String... args) {
         List<ScheduleJobEntity> scheduleJobList = scheduleJobMapper.selectList(null);
         for(ScheduleJobEntity scheduleJob : scheduleJobList){
@@ -37,5 +38,5 @@ public class JobCommandLineRunner implements CommandLineRunner {
                 ScheduleUtils.updateScheduleJob(scheduler, scheduleJob);
             }
         }
-    }
+    }*/
 }

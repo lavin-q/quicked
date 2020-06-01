@@ -7,6 +7,8 @@ import java.util.Date;
 import com.quickd.core.entity.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.experimental.Accessors;
 
 /**
@@ -17,7 +19,8 @@ import lombok.experimental.Accessors;
  * @author quickd
  * @since 2019-09-26
  */
-@Data
+@Setter
+@Getter
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 @TableName("sys_notice_read")

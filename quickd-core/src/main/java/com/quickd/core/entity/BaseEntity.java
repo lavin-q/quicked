@@ -12,6 +12,8 @@ import com.baomidou.mybatisplus.annotation.*;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
@@ -24,7 +26,8 @@ import java.util.Date;
  * @author: caochaofeng
  * @create: 2019-08-15 09:01
  */
-@Data
+@Setter
+@Getter
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 public abstract class BaseEntity implements Serializable {
@@ -65,4 +68,6 @@ public abstract class BaseEntity implements Serializable {
     @Version
     @TableField(value="version",fill = FieldFill.INSERT)
     private Integer version;
+
+
 }

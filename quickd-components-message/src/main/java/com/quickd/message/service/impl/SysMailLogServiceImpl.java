@@ -23,7 +23,6 @@ import java.util.Map;
 public class SysMailLogServiceImpl extends BaseServiceImpl<SysMailLogDao, SysMailLogEntity> implements SysMailLogService {
 
 
-    @Override
     public void save(String templateId, String from, String[] to, String[] cc, String subject, String content, Integer status) {
         SysMailLogEntity log = new SysMailLogEntity();
         log.setTemplateId(templateId);

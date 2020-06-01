@@ -3,11 +3,14 @@ package com.quickd.core.config;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.validator.constraints.URL;
 
 import javax.validation.constraints.NotBlank;
 
-@Data
+@Setter
+@Getter
 @ApiModel(value = "阿里云存储配置信息")
 public class AliyunStorageConfig {
     @ApiModelProperty(value = "阿里云绑定的域名")

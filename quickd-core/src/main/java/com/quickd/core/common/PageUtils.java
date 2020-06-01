@@ -3,6 +3,8 @@ package com.quickd.core.common;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.List;
@@ -15,7 +17,8 @@ import java.util.List;
  * @date 2016年11月4日 下午12:59:00
  */
 @ApiModel(value = "分页数据")
-@Data
+@Setter
+@Getter
 public class PageUtils<T> implements Serializable {
 	private static final long serialVersionUID = 1L;
 	//总记录数

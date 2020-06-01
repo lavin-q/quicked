@@ -3,12 +3,15 @@ package com.quickd.core.config;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.validator.constraints.URL;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.validation.constraints.NotBlank;
 
-@Data
+@Setter
+@Getter
 @ApiModel(value = "本地存储配置信息")
 public class LocalStorageConfig implements WebMvcConfigurer {
     @ApiModelProperty(value = "本地上传绑定的域名")

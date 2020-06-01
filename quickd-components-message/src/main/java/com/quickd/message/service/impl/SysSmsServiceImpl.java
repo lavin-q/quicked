@@ -29,7 +29,6 @@ public class SysSmsServiceImpl extends BaseServiceImpl<SysSmsDao, SysSmsEntity> 
 
 
 
-    @Override
     public void send(String mobile, String params,String templateCode) {
         LinkedHashMap<String, String> map;
         try {
@@ -48,7 +47,7 @@ public class SysSmsServiceImpl extends BaseServiceImpl<SysSmsDao, SysSmsEntity> 
         service.sendSms(mobile, map,templateCode);
     }
 
-    @Override
+
     public void save( String mobile, LinkedHashMap<String, String> params, Integer status,String remarks) {
         SysSmsEntity sms = new SysSmsEntity();
         sms.setMobile(mobile);

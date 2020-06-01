@@ -1,25 +1,21 @@
 
 package com.quickd.quartz.service;
 
-import com.quickd.core.enums.ScheduleEnum;
-import com.quickd.core.job.entity.ScheduleJobEntity;
-import com.quickd.core.job.service.ScheduleJobService;
-import com.quickd.core.service.impl.BaseServiceImpl;
-import com.quickd.quartz.dao.ScheduleJobMapper;
-import com.quickd.quartz.utils.ScheduleUtils;
 import org.quartz.Scheduler;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import javax.annotation.Resource;
 
 @Service
-public class ScheduleJobServiceImpl extends BaseServiceImpl<ScheduleJobMapper, ScheduleJobEntity> implements ScheduleJobService {
-	@Autowired
+public class ScheduleJobServiceImpl  {
+
+	//extends BaseServiceImpl<ScheduleJobMapper, ScheduleJobEntity> implements ScheduleJobService
+	@Resource
 	private Scheduler scheduler;
 
-	@Override
+
+
+	/*@Override
 	@Transactional
     public void updateBatch(String[] ids, int status){
     	Map<String, Object> map = new HashMap<>(2);
@@ -58,6 +54,6 @@ public class ScheduleJobServiceImpl extends BaseServiceImpl<ScheduleJobMapper, S
     		ScheduleUtils.resumeJob(scheduler, id);
     	}
     	updateBatch(ids, ScheduleEnum.NORMAL.getValue());
-    }
+    }*/
     
 }

@@ -2,19 +2,11 @@
 
 package com.quickd.quartz.utils;
 
-import com.baomidou.mybatisplus.core.toolkit.ExceptionUtils;
-import com.quickd.core.common.Const;
-import com.quickd.core.job.service.ScheduleJobLogService;
-import com.quickd.core.util.SpringContextUtil;
-import com.quickd.core.job.entity.ScheduleJobEntity;
-import com.quickd.core.job.entity.ScheduleJobLogEntity;
 import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.quartz.QuartzJobBean;
-
-import java.lang.reflect.Method;
-import java.util.Date;
 
 
 /**
@@ -24,7 +16,12 @@ import java.util.Date;
 public class ScheduleJob extends QuartzJobBean {
 	private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @Override
+	@Override
+	protected void executeInternal(JobExecutionContext jobExecutionContext) throws JobExecutionException {
+
+	}
+
+	/*@Override
     protected void executeInternal(JobExecutionContext context) {
         ScheduleJobEntity scheduleJob = (ScheduleJobEntity) context.getMergedJobDataMap().
 				get(ScheduleUtils.JOB_PARAM_KEY);
@@ -72,5 +69,5 @@ public class ScheduleJob extends QuartzJobBean {
 			ScheduleJobLogService scheduleJobLogService = SpringContextUtil.getBean(ScheduleJobLogService.class);
 			scheduleJobLogService.save(log);
 		}
-    }
+    }*/
 }

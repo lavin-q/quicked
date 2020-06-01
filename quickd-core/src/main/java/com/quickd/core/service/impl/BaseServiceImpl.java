@@ -16,13 +16,16 @@ import com.quickd.core.query.QueryViewVo;
 import com.quickd.core.service.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.annotation.Resource;
+
 /**
  * 基础服务类，所有Service都要继承
  *
  * @author Mark sunlightcs@gmail.com
  */
 public abstract class BaseServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl implements BaseService<T> {
-    @Autowired
+
+    @Resource
     protected M baseDao;
 
     @Override

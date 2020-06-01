@@ -9,6 +9,8 @@ import com.quickd.core.validator.group.AddGroup;
 import com.quickd.core.validator.group.UpdateGroup;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotBlank;
@@ -21,7 +23,8 @@ import javax.validation.constraints.NotBlank;
  * @author quickd
  * @since 2019-09-29
  */
-@Data
+@Setter
+@Getter
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 @TableName("sys_config")

@@ -40,11 +40,13 @@
             <version>5.1.9.RELEASE</version>
             <scope>compile</scope>
         </dependency>
+         <!--https://mvnrepository.com/artifact/com.gexin.platform/gexin-rp-sdk-http-->
         <dependency>
             <groupId>com.gexin.platform</groupId>
             <artifactId>gexin-rp-sdk-http</artifactId>
             <version>4.0.1.7</version>
         </dependency>
+
 
         <!--微信推送功能依赖-->
         <dependency>
